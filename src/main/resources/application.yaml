@@ -1,0 +1,17 @@
+
+logging:
+  level:
+    root: INFO
+
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/telegramdb
+    username: postgres
+    password: Zaq12wsx
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
