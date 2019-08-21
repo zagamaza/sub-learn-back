@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zagamaza/sub-learn-back.svg?branch=develop)](https://travis-ci.org/zagamaza/sub-learn-back)
+
 # Сервис ms-sublearn-back
 
 ## Установка, настройка и запуск
