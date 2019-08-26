@@ -1,20 +1,27 @@
 package ru.zagamaza.sublearn.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.zagamaza.sublearn.dto.TranslateOptionDto;
 import ru.zagamaza.sublearn.dto.TrialCondensedDto;
 import ru.zagamaza.sublearn.dto.TrialDto;
-import ru.zagamaza.sublearn.dto.TrialRequestDto;
+import ru.zagamaza.sublearn.dto.TrialRequest;
 import ru.zagamaza.sublearn.infra.service.api.TrialInfraService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,27 +29,52 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrialController {
 
-    private final TrialInfraService trialInfraService;
-
-    @PostMapping
-    public TrialDto save(@RequestBody TrialRequestDto trialRequestDto) {
-        TrialDto trialDto = TrialDto.from(trialRequestDto);
-        return trialInfraService.save(trialDto);
-    }
+    private final TrialInfraService service;
 
     @GetMapping("/{id}")
     public TrialDto get(@PathVariable Long id) {
-        return trialInfraService.get(id);
+        return service.get(id);
+    }
+
+    @GetMapping
+    public List<TrialDto> get(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping("/condensed/users/{userId}")
     public List<TrialCondensedDto> getLastConsedTrial(@PathVariable Long userId) {
-        return trialInfraService.getLastConsedTrialByUserId(userId, PageRequest.of(0, 10));
+        return service.getLastConsedTrialByUserId(userId, PageRequest.of(0, 10));
     }
 
     @GetMapping("/nextWord")
     public TranslateOptionDto getTranslateOptionDto(@RequestParam Long trialId) {
-        return trialInfraService.getNextWord(trialId);
+        return service.getNextWord(trialId);
+    }
+
+
+    @ApiOperation(value = "Operation for save Trial and TrialWord with unused words from Episode")
+    @PostMapping("/trial_word")
+    public TrialDto saveTrialAnd20TrialWord(@Valid @RequestBody TrialRequest trialRequest) {
+        TrialDto trialDto = TrialDto.from(trialRequest);
+        return service.saveTrialAnd20TrialWord(trialDto);
+    }
+
+    @PostMapping
+    public TrialDto create(@Valid @RequestBody TrialRequest trialRequest) {
+        TrialDto trialDto = TrialDto.from(trialRequest);
+        return service.save(trialDto);
+    }
+
+    @PutMapping
+    public TrialDto update(@Valid @RequestBody TrialRequest trialRequest) {
+        TrialDto trialDto = TrialDto.from(trialRequest);
+        return service.saveTrialAnd20TrialWord(trialDto);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        service.removeById(id);
     }
 
 }

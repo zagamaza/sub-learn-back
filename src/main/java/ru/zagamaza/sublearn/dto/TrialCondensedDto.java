@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 public class TrialCondensedDto {
 
     private Long id;
-    private String name;
-    private Long userId;
     private Long collectionId;
     private String collectionName;
     private Integer percent;
@@ -24,10 +22,8 @@ public class TrialCondensedDto {
     public static TrialCondensedDto from(TrialEntity entity) {
         return new TrialCondensedDto(
                 entity.getId(),
-                entity.getName(),
-                entity.getUserEntity().getId(),
-                entity.getCollectionEntity().getId(),
-                entity.getCollectionEntity().getName(),
+                entity.getEpisodeEntity().getId(),
+                "ss",
                 entity.getPercent(),
                 entity.getCreated()
         );
@@ -36,12 +32,21 @@ public class TrialCondensedDto {
     public static TrialCondensedDto from(TrialDto dto) {
         return new TrialCondensedDto(
                 dto.getId(),
-                dto.getName(),
-                dto.getUserDto().getId(),
-                dto.getCollectionDto().getId(),
-                dto.getCollectionDto().getName(),
+                dto.getEpisodeDto().getId(),
+                "dd",
                 dto.getPercent(),
                 dto.getCreated()
         );
     }
+
+    public static TrialCondensedDto from(TrialWordDto trialWordDto) {
+        return new TrialCondensedDto(
+                trialWordDto.getId(),
+                trialWordDto.getTrialDto().getEpisodeDto().getId(),
+                trialWordDto.getTrialDto().getEpisodeDto().getCollectionDto().getName(),
+                trialWordDto.getTrialDto().getPercent(),
+                trialWordDto.getTrialDto().getCreated()
+        );
+    }
+
 }

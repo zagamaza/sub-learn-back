@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 import ru.zagamaza.sublearn.domain.exception.NotFoundException;
 import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
 import ru.zagamaza.sublearn.dto.CollectionDto;
-import ru.zagamaza.sublearn.dto.WordDto;
 import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.CollectionRepository;
 import ru.zagamaza.sublearn.infra.service.api.CollectionInfraService;
-import ru.zagamaza.sublearn.infra.service.api.WordInfraService;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 public class CollectionInfraServiceImpl implements CollectionInfraService {
 
     private final CollectionRepository repository;
-    private final WordInfraService wordInfraService;
     private final MessageSource messageSource;
 
     @Override
@@ -34,7 +31,6 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
                                                     "collection.not.found.exception",
                                                     id
                                             )));
-
         return CollectionDto.from(entity);
     }
 
@@ -48,36 +44,25 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     }
 
     @Override
-    public CollectionDto save(CollectionDto dto) {
-        CollectionEntity entity;
-        if (dto.getId() != null) {
-            entity = repository.findById(dto.getId())
-                               .stream()
-                               .peek(o -> {
-                                   o.setCreated(dto.getCreated());
-                                   o.setLang(dto.getLang());
-                               })
-                               .findFirst()
-                               .orElseThrow(() -> new NotFoundException(getMessage(
-                                       "collection.not.found.exception",
-                                       dto.getId()
-                               )));
-        } else {
-            entity = repository.save(new CollectionEntity());
-            dto.setId(entity.getId());
-            dto.getWords().forEach(
-                    word -> {
-                        try {
-                            WordDto wordDto = wordInfraService.getByName(word.getWord());
-                            word.setWord(wordDto.getWord());
-                            word.setId(wordDto.getId());
-                        } catch (NotFoundException ignored) {
-                        }
-                    }
-            );
-            entity = repository.save(CollectionEntity.from(dto));
-        }
+    public CollectionDto update(CollectionDto dto) {
+        CollectionEntity entity = repository.findById(dto.getId())
+                                                      .stream()
+                                                      .peek(o -> {
+                                                          o.setCreated(dto.getCreated());
+                                                          o.setLang(dto.getLang());
+                                                      })
+                                                      .findFirst()
+                                                      .orElseThrow(() -> new NotFoundException(getMessage(
+                                                              "collection.not.found.exception",
+                                                              dto.getId()
+                                                      )));
+        return CollectionDto.from(entity);
+    }
 
+
+    @Override
+    public CollectionDto save(CollectionDto dto) {
+        CollectionEntity entity = repository.save(CollectionEntity.from(dto));
         return CollectionDto.from(entity);
     }
 

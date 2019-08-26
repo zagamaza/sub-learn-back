@@ -3,22 +3,19 @@ package ru.zagamaza.sublearn.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import ru.zagamaza.sublearn.infra.dao.entity.UserWordEntity;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrialRequestDto {
+public class UserWordRequest {
 
     private Long id;
 
-    private String name;
-
     private Long userId;
 
-    private Long collectionId;
+    private Long wordId;
 
-    private LocalDateTime created;
+    private Integer rate;
 
 }

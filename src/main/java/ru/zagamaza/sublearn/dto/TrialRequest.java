@@ -1,22 +1,24 @@
 package ru.zagamaza.sublearn.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultRequestDto {
+public class TrialRequest {
 
     private Long id;
-    private Long wordId;
-    private Long trialId;
-    boolean isRight;
+
+    private String name;
+
+    @NotNull
+    private Long episodeId;
+
     private LocalDateTime created;
 
 }

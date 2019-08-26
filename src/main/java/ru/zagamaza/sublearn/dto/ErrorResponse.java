@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorResponseDto {
+public class ErrorResponse {
 
     private String message;
     private String uuid;

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
 
-    List<TrialEntity> findAllByUserEntityIdOrderByCreatedDesc(Long userId, Pageable pageable);
+    List<TrialEntity> findAllByOrderByCreatedDesc(Pageable pageable);
 
     @Query(value = "select w.id \n" +
             "from trials t\n" +
@@ -27,7 +27,7 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
             "                 where t2.id = t.id\n" +
             "                   and w2.id = w.id)\n" +
             "order by random() limit 1", nativeQuery = true)
-    Long    getLastWordId(@Param("trialId") Long trialId);
+    Long getLastWordId(@Param("trialId") Long trialId);
 
     @Query(value = "select (select count(1)\n" +
             "        from trials t\n" +
@@ -40,5 +40,6 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
             "                                           join words w on cwe.world_entities_id = w.id\n" +
             "                                  where t.id = :trialId)\n", nativeQuery = true)
     Integer getStatistic1(@Param("trialId") Long trialId);
+
 }
 

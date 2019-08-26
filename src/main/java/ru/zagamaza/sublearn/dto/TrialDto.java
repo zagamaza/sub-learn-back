@@ -20,11 +20,9 @@ public class TrialDto {
 
     private String name;
 
-    private UserDto userDto;
+    private EpisodeDto episodeDto;
 
-    private CollectionDto collectionDto;
-
-    private List<ResultDto> results;
+    private List<TrialWordDto> trialWords;
 
     private Integer percent;
 
@@ -41,13 +39,12 @@ public class TrialDto {
         return new TrialDto(
                 entity.getId(),
                 entity.getName(),
-                UserDto.compressedFrom(entity.getUserEntity()),
-                CollectionDto.from(entity.getCollectionEntity()),
-                isEmpty(entity.getResultEntity())
+                EpisodeDto.from(entity.getEpisodeEntity()),
+                isEmpty(entity.getTrialWordEntity())
                         ? null
-                        : entity.getResultEntity().stream()
-                        .map(ResultDto::from)
-                        .collect(Collectors.toList()),
+                        : entity.getTrialWordEntity().stream()
+                                .map(TrialWordDto::from)
+                                .collect(Collectors.toList()),
                 entity.getPercent(),
                 entity.getCorrectPercent(),
                 entity.getCreated()
@@ -61,24 +58,23 @@ public class TrialDto {
                 entity.getName(),
                 null,
                 null,
-                null,
                 entity.getPercent(),
                 entity.getCorrectPercent(),
                 entity.getCreated()
         );
     }
 
-    public static TrialDto from(TrialRequestDto trialRequestDto) {
+    public static TrialDto from(TrialRequest trialRequest) {
         return new TrialDto(
-                trialRequestDto.getId(),
-                trialRequestDto.getName(),
-                UserDto.builder().id(trialRequestDto.getUserId()).build(),
-                CollectionDto.builder().id(trialRequestDto.getCollectionId()).build(),
+                trialRequest.getId(),
+                trialRequest.getName(),
+                EpisodeDto.builder().id(trialRequest.getEpisodeId()).build(),
                 null,
                 null,
                 null,
-                trialRequestDto.getCreated()
+                trialRequest.getCreated()
         );
 
     }
+
 }

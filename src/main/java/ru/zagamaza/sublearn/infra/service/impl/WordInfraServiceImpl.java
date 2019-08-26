@@ -10,7 +10,9 @@ import ru.zagamaza.sublearn.infra.dao.entity.WordEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.WorldRepository;
 import ru.zagamaza.sublearn.infra.service.api.WordInfraService;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,14 @@ public class WordInfraServiceImpl implements WordInfraService {
                 .orElseThrow(() -> new NotFoundException(getMessage("word.not.found.exception", name)));
 
         return WordDto.from(entity);
+    }
+
+    @Override
+    public List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Integer countWord) {
+        List<Long> wordIds = repository.findRandomWordsByEpisodeId(episodeId, countWord);
+        return wordIds.stream()
+                      .map(this::get)
+                      .collect(Collectors.toList());
     }
 
     private String getMessage(String key, Object... args) {

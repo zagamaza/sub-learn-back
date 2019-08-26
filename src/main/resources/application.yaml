@@ -8,9 +8,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/telegramdb
+    url: jdbc:postgresql://localhost:15432/sublearndb
     username: postgres
-    password: Zaq12wsx
+    password: passw0rd
   jpa:
     hibernate:
       ddl-auto: update

@@ -4,27 +4,33 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
 import ru.zagamaza.sublearn.infra.dao.entity.Lang;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CollectionCondensedDto {
+public class CollectionRequest {
 
     private Long id;
+
+    @NotNull
     private Lang lang;
+
+    @NotNull
+    private Long userId;
+
+    @NotNull
     private String name;
+
     private LocalDateTime created;
 
-    public static CollectionCondensedDto from(CollectionDto collectionDto) {
-        return new CollectionCondensedDto(
-                collectionDto.getId(),
-                collectionDto.getLang(),
-                collectionDto.getName(),
-                collectionDto.getCreated()
-        );
-    }
+    private boolean isSerial;
+
 }

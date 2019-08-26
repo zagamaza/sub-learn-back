@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import ru.zagamaza.sublearn.domain.exception.DomainException;
-import ru.zagamaza.sublearn.dto.ErrorResponseDto;
+import ru.zagamaza.sublearn.dto.ErrorResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -29,7 +29,7 @@ public class ErrorController extends AbstractErrorController {
     }
 
     @RequestMapping
-    public ResponseEntity<ErrorResponseDto> error(HttpServletRequest request, Locale locale) {
+    public ResponseEntity<ErrorResponse> error(HttpServletRequest request, Locale locale) {
         var webRequest = new ServletWebRequest(request);
         var throwable = errorAttributes.getError(webRequest);
         var status = getStatus(request);
@@ -38,12 +38,12 @@ public class ErrorController extends AbstractErrorController {
         if (throwable == null) {
             return ResponseEntity
                     .status(status)
-                    .body(new ErrorResponseDto(defaultMessage, UUID.randomUUID().toString(), Collections.emptyList()));
+                    .body(new ErrorResponse(defaultMessage, UUID.randomUUID().toString(), Collections.emptyList()));
         }
 
         if (throwable instanceof DomainException) {
             return ResponseEntity.status(status).body(
-                    new ErrorResponseDto(
+                    new ErrorResponse(
                             messageSource.getMessage(throwable.getMessage(), null, defaultMessage, locale),
                             UUID.randomUUID().toString(),
                             Collections.emptyList()
@@ -53,7 +53,7 @@ public class ErrorController extends AbstractErrorController {
 
         return ResponseEntity
                 .status(status)
-                .body(new ErrorResponseDto(defaultMessage, UUID.randomUUID().toString(), Collections.emptyList()));
+                .body(new ErrorResponse(defaultMessage, UUID.randomUUID().toString(), Collections.emptyList()));
     }
 
     @Override

@@ -14,26 +14,26 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class WordController {
 
-    private final WordInfraService wordInfraService;
+    private final WordInfraService service;
 
     @GetMapping("/{id}")
     public WordDto get(@PathVariable Long id) {
-        return wordInfraService.get(id);
+        return service.get(id);
     }
 
     @PostMapping
-    public WordDto create(@Valid @RequestBody WordDto dto) {
-        return wordInfraService.save(dto);
+    public WordDto create(@Valid @RequestBody WordDto wordDto) {
+        return service.save(wordDto);
     }
 
     @PutMapping
-    public WordDto update(@RequestBody WordDto dto) {
-        return wordInfraService.save(dto);
+    public WordDto update(@RequestBody WordDto wordDto) {
+        return service.save(wordDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        wordInfraService.removeById(id);
+        service.removeById(id);
     }
 }

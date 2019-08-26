@@ -12,6 +12,8 @@ public interface CollectionInfraService {
 
     List<CollectionDto> getAllByPage(Pageable pageable);
 
+    CollectionDto update(CollectionDto dto);
+
     CollectionDto save(CollectionDto dto);
 
     void removeById(long id);

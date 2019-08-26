@@ -30,8 +30,8 @@ public class UserEntity {
 
     private LocalDateTime created;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userEntity")
-    private List<TrialEntity> trialEntities;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "userEntity")
+    private List<UserWordEntity> userWordEntities;
 
     public static UserEntity from(UserDto dto) {
         return UserEntity.builder()

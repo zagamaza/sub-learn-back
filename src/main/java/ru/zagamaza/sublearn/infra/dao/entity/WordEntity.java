@@ -1,6 +1,7 @@
 package ru.zagamaza.sublearn.infra.dao.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.dto.WordDto;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "words", indexes = @Index(name = "name_seq", columnList = "word"))
