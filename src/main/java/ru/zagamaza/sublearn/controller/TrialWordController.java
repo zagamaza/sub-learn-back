@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.zagamaza.sublearn.dto.TrialWordDto;
 import ru.zagamaza.sublearn.dto.TrialWordRequest;
-import ru.zagamaza.sublearn.infra.service.api.TrialWordInfraService;
+import ru.zagamaza.sublearn.infra.service.TrialInfraService;
+import ru.zagamaza.sublearn.infra.service.TrialWordInfraService;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/trial_word")
+@RequestMapping("/api/trial_words")
 @RequiredArgsConstructor
 public class TrialWordController {
 
@@ -26,11 +27,6 @@ public class TrialWordController {
 
     @GetMapping("/{id}")
     public TrialWordDto get(@PathVariable Long id) {
-        return service.get(id);
-    }
-
-    @GetMapping("/users/{id}")
-    public TrialWordDto getLastResultByUserId(@PathVariable Long id) {
         return service.get(id);
     }
 
@@ -43,7 +39,13 @@ public class TrialWordController {
     @PutMapping
     public TrialWordDto update(@Valid @RequestBody TrialWordRequest trialWordRequest) {
         TrialWordDto trialWordDto = TrialWordDto.from(trialWordRequest);
-        return service.save(trialWordDto);
+        return service.update(trialWordDto);
+    }
+
+    @PutMapping("/user_word")
+    public TrialWordDto updateTrialWordAndSaveUserWord(@Valid @RequestBody TrialWordRequest trialWordRequest) {
+        TrialWordDto trialWordDto = TrialWordDto.from(trialWordRequest);
+        return service.updateTrialWordAndSaveUserWord(trialWordDto);
     }
 
     @DeleteMapping("/{id}")

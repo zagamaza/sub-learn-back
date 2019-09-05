@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.infra.service.api;
+package ru.zagamaza.sublearn.infra.service;
 
 import org.springframework.data.domain.Pageable;
 import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
@@ -19,4 +19,7 @@ public interface CollectionInfraService {
     void removeById(long id);
 
     List<CollectionCondensedDto> getCondensedCollectionByUserId(Long userId, Pageable pageable);
+
+    CollectionDto updateIsSerial(Long id, Boolean isSerial);
+
 }

@@ -18,7 +18,6 @@ public class TrialWordRequest {
 
     private Long wordId;
 
-    @NotNull
     private Long trialId;
 
     @NotNull

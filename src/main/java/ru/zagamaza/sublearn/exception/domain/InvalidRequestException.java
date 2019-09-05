@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.domain.exception;
+package ru.zagamaza.sublearn.exception.domain;
 
 import org.springframework.http.HttpStatus;
 

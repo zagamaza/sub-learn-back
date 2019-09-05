@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.domain.exception;
+package ru.zagamaza.sublearn.exception.domain;
 
 import org.springframework.http.HttpStatus;
 
@@ -19,5 +19,9 @@ public class NotFoundException extends DomainException {
     public NotFoundException(Throwable cause) {
         super(cause);
     }
+
+    public NotFoundException() {
+    }
+
 
 }

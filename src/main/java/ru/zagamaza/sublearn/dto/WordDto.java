@@ -1,5 +1,6 @@
 package ru.zagamaza.sublearn.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,9 @@ import ru.zagamaza.sublearn.infra.dao.entity.WordEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Data
 @Builder
@@ -18,7 +22,7 @@ public class WordDto {
     private Long id;
     private String word;
     private String transcription;
-    private List<String> translation;
+    private List<TranslationDto> translation;
     private String lang;
     private LocalDateTime created;
 
@@ -31,7 +35,12 @@ public class WordDto {
                 entity.getId(),
                 entity.getWord(),
                 entity.getTranscription(),
-                entity.getTranslation(),
+                isEmpty(entity.getTranslationEntities())
+                        ? null
+                        : entity.getTranslationEntities()
+                                .stream()
+                                .map(TranslationDto::from)
+                                .collect(Collectors.toList()),
                 entity.getLang(),
                 entity.getCreated()
         );

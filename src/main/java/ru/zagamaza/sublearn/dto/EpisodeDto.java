@@ -27,6 +27,8 @@ public class EpisodeDto {
 
     private Integer episode;
 
+    private Integer learnedPercent;
+
     public static EpisodeDto from(EpisodeEntity entity) {
         return new EpisodeDto(
                 entity.getId(),
@@ -39,7 +41,8 @@ public class EpisodeDto {
                         ? null
                         : CollectionDto.compressedFrom(entity.getCollectionEntity()),
                 entity.getSeason(),
-                entity.getEpisode()
+                entity.getEpisode(),
+                null
         );
     }
 
@@ -49,7 +52,8 @@ public class EpisodeDto {
                 dto.getWords(),
                 CollectionDto.builder().id(dto.getCollectionId()).build(),
                 dto.getSeason(),
-                dto.getEpisode()
+                dto.getEpisode(),
+                null
         );
     }
 

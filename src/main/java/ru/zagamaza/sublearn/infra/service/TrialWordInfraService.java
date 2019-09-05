@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.infra.service.api;
+package ru.zagamaza.sublearn.infra.service;
 
 
 import org.springframework.data.domain.Pageable;
@@ -13,10 +13,14 @@ public interface TrialWordInfraService {
 
     List<TrialWordDto> getAll(Pageable pageable);
 
+    TrialWordDto update(TrialWordDto dto);
+
+    TrialWordDto updateTrialWordAndSaveUserWord(TrialWordDto dto);
+
     TrialWordDto save(TrialWordDto dto);
 
     void removeById(long id);
 
-    List<TrialWordDto> save20WordTrialForTrial(TrialDto trialDto);
+    List<TrialWordDto> saveWordTrialsForTrial(TrialDto trialDto);
 
 }

@@ -15,7 +15,4 @@ public class UserWordRequest {
     private Long userId;
 
     private Long wordId;
-
-    private Integer rate;
-
 }

@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.zagamaza.sublearn.domain.exception.NotFoundException;
 import ru.zagamaza.sublearn.dto.UserDto;
+import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.UserEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.UserRepository;
-import ru.zagamaza.sublearn.infra.service.api.UserInfraService;
+import ru.zagamaza.sublearn.infra.service.UserInfraService;
 
 import java.util.List;
 import java.util.Locale;
@@ -23,13 +23,11 @@ public class UserInfraServiceImpl implements UserInfraService {
     private final UserRepository repository;
     private final MessageSource messageSource;
 
-
     @Override
     public UserDto get(Long id) {
         UserEntity entity = repository.findById(id)
                                       .orElseThrow(() -> new NotFoundException(getMessage(
-                                              "user.not.found.exception",
-                                              id
+                                              "user.not.found.exception", id
                                       )));
         return UserDto.from(entity);
     }
@@ -55,6 +53,23 @@ public class UserInfraServiceImpl implements UserInfraService {
         repository.deleteById(id);
     }
 
+    @Override
+    public UserDto getByUserName(String userName) {
+        UserEntity userEntity = repository.findByUserName(userName).orElse(null);
+        return UserDto.from(userEntity);
+    }
+
+    @Override
+    public UserDto getByTrialId(Long trialId) {
+        Long userId = repository.getIdByTrialId(trialId);
+        return get(userId);
+    }
+
+    @Override
+    public UserDto getByTelegramId(Long telegramId) {
+        UserEntity userEntity = repository.findByTelegramId(telegramId).orElse(null);
+        return UserDto.from(userEntity);
+    }
 
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());

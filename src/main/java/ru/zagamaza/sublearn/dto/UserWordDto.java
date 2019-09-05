@@ -18,6 +18,11 @@ public class UserWordDto {
 
     private Integer rate;
 
+    public UserWordDto(Long userId, Long wordId) {
+        this.userDto = UserDto.builder().id(userId).build();
+        this.wordDto = WordDto.builder().id(wordId).build();
+    }
+
     public static UserWordDto from(UserWordEntity entity) {
         return new UserWordDto(
                 entity.getId(),
@@ -32,7 +37,7 @@ public class UserWordDto {
                 dto.getId(),
                 UserDto.builder().id(dto.getUserId()).build(),
                 WordDto.builder().id(dto.getWordId()).build(),
-                dto.getRate()
+                null
         );
     }
 

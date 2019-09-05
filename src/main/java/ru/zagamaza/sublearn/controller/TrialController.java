@@ -2,7 +2,6 @@ package ru.zagamaza.sublearn.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +18,7 @@ import ru.zagamaza.sublearn.dto.TranslateOptionDto;
 import ru.zagamaza.sublearn.dto.TrialCondensedDto;
 import ru.zagamaza.sublearn.dto.TrialDto;
 import ru.zagamaza.sublearn.dto.TrialRequest;
-import ru.zagamaza.sublearn.infra.service.api.TrialInfraService;
+import ru.zagamaza.sublearn.infra.service.TrialInfraService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,13 +36,13 @@ public class TrialController {
     }
 
     @GetMapping
-    public List<TrialDto> get(Pageable pageable) {
+    public List<TrialDto> getAll(Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping("/condensed/users/{userId}")
-    public List<TrialCondensedDto> getLastConsedTrial(@PathVariable Long userId) {
-        return service.getLastConsedTrialByUserId(userId, PageRequest.of(0, 10));
+    public List<TrialCondensedDto> getLastConsedTrial(@PathVariable Long userId, Pageable pageable) {
+        return service.getLastConsedTrialByUserId(userId, pageable);
     }
 
     @GetMapping("/nextWord")
@@ -54,9 +53,9 @@ public class TrialController {
 
     @ApiOperation(value = "Operation for save Trial and TrialWord with unused words from Episode")
     @PostMapping("/trial_word")
-    public TrialDto saveTrialAnd20TrialWord(@Valid @RequestBody TrialRequest trialRequest) {
+    public TrialDto saveTrialAndTrialWords(@Valid @RequestBody TrialRequest trialRequest) {
         TrialDto trialDto = TrialDto.from(trialRequest);
-        return service.saveTrialAnd20TrialWord(trialDto);
+        return service.saveTrialAndTrialWords(trialDto);
     }
 
     @PostMapping
@@ -68,7 +67,7 @@ public class TrialController {
     @PutMapping
     public TrialDto update(@Valid @RequestBody TrialRequest trialRequest) {
         TrialDto trialDto = TrialDto.from(trialRequest);
-        return service.saveTrialAnd20TrialWord(trialDto);
+        return service.saveTrialAndTrialWords(trialDto);
     }
 
     @DeleteMapping("/{id}")

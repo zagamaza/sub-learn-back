@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.infra.service.api;
+package ru.zagamaza.sublearn.infra.service;
 
 
 import org.springframework.data.domain.Pageable;
@@ -15,4 +15,7 @@ public interface UserWordInfraService {
     UserWordDto save(UserWordDto dto);
 
     void removeById(long id);
+
+    UserWordDto save(Long wordId, Long userId, boolean isRight);
+
 }

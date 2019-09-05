@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.infra.service.api;
+package ru.zagamaza.sublearn.infra.service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +14,8 @@ public interface TrialInfraService {
 
     List<TrialDto> getAll(Pageable pageable);
 
-    TrialDto saveTrialAnd20TrialWord(TrialDto dto);
+    TrialDto saveTrialAndTrialWords(TrialDto dto);
 
-    @Transactional
     TrialDto save(TrialDto dto);
 
     void removeById(long id);
@@ -24,4 +23,7 @@ public interface TrialInfraService {
     TranslateOptionDto getNextWord(Long trialId);
 
     List<TrialCondensedDto> getLastConsedTrialByUserId(Long userId, Pageable pageable);
+
+    void fillStatistic(TrialDto trialDto);
+
 }

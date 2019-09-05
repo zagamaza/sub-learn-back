@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.zagamaza.sublearn.dto.UserWordDto;
 import ru.zagamaza.sublearn.dto.UserWordRequest;
-import ru.zagamaza.sublearn.infra.service.api.UserWordInfraService;
+import ru.zagamaza.sublearn.infra.service.UserWordInfraService;
 
 @RestController
 @RequestMapping("/api/user_words")

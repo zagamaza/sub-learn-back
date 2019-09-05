@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.infra.service.api;
+package ru.zagamaza.sublearn.infra.service;
 
 import org.springframework.data.domain.Pageable;
 import ru.zagamaza.sublearn.dto.UserDto;
@@ -14,5 +14,11 @@ public interface UserInfraService {
     UserDto save(UserDto dto);
 
     void removeById(long id);
+
+    UserDto getByUserName(String userName);
+
+    UserDto getByTrialId(Long trialId);
+
+    UserDto getByTelegramId(Long telegramId);
 
 }

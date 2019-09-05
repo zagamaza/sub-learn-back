@@ -26,5 +26,6 @@ jobs:
       language: java
       script: ./gradlew check
     - stage: pushImage
-      if: (branch = develop) AND (type = push)
+      if: branch = develop
+#      if: (branch = develop) AND (type = push)
       script: ./gradlew pushImage

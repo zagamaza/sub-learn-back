@@ -18,17 +18,16 @@ public class EpisodeRequest {
 
     private Long id;
 
-    @NotNull
     private List<WordDto> words;
 
     @NotNull
     private Long collectionId;
 
-    @Min(value = 1L)
+    @Min(value = 0L)
     @Max(value = 23L)
     private Integer season;
 
-    @Min(value = 1L)
+    @Min(value = 0L)
     @Max(value = 50L)
     private Integer episode;
 

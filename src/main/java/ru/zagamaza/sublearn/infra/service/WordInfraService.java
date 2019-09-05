@@ -1,4 +1,4 @@
-package ru.zagamaza.sublearn.infra.service.api;
+package ru.zagamaza.sublearn.infra.service;
 
 import ru.zagamaza.sublearn.dto.WordDto;
 
@@ -15,5 +15,7 @@ public interface WordInfraService {
     WordDto getByName(String name);
 
     List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Integer countWord);
+
+    List<String> removeWordsAlreadySave(List<String> words, List<WordDto> wordDtos);
 
 }

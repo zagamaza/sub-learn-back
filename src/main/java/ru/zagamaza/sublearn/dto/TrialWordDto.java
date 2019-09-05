@@ -20,9 +20,11 @@ public class TrialWordDto {
 
     private TrialDto trialDto;
 
-    boolean isRight;
+    private boolean isRight;
 
-    boolean isPassed;
+    private boolean isPassed;
+
+    private boolean isLastWord;
 
     private LocalDateTime created;
 
@@ -33,6 +35,7 @@ public class TrialWordDto {
                 TrialDto.compressedFrom(entity.getTrialEntity()),
                 entity.isRight(),
                 entity.isPassed(),
+                entity.isLastWord(),
                 entity.getCreated()
         );
     }
@@ -44,7 +47,9 @@ public class TrialWordDto {
                 new TrialDto(trialWordRequest.getTrialId()),
                 trialWordRequest.isRight(),
                 trialWordRequest.isPassed(),
+                false,
                 trialWordRequest.getCreated()
         );
     }
+
 }

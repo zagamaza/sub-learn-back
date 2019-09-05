@@ -15,4 +15,6 @@ public interface TrialService {
 
     TranslateOptionDto fillTranslateOption(TrialWordDto trialWordDto, List<WordDto> randomWords);
 
+    TrialWordDto getTrialWordNotIsPassed(TrialDto trialDto);
+
 }

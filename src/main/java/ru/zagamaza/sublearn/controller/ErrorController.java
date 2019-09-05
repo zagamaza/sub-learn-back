@@ -7,14 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
-import ru.zagamaza.sublearn.domain.exception.DomainException;
+import ru.zagamaza.sublearn.exception.domain.DomainException;
 import ru.zagamaza.sublearn.dto.ErrorResponse;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.UUID;
 
+@ApiIgnore
 @RestController
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class ErrorController extends AbstractErrorController {

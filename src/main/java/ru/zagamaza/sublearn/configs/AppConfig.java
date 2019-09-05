@@ -40,7 +40,7 @@ public class AppConfig {
         return new ApiInfo(
                 "REST API SUB-LEARN-BACK",
                 "REST API for Sub-Learn",
-                "0.1",
+                "0.2.7",
                 "Terms of service",
                 new Contact("Almaz Nurmukhametov", null, "almazic91@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList()

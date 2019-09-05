@@ -1,15 +1,9 @@
-package ru.zagamaza.sublearn.domain.exception;
+package ru.zagamaza.sublearn.exception.domain;
 
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
-import java.util.UUID;
+import ru.zagamaza.sublearn.exception.BaseException;
 
-@Getter
-public class DomainException extends RuntimeException {
-
-    protected final String uuid = UUID.randomUUID().toString();
-    protected HttpStatus httpStatus;
+public class DomainException extends BaseException {
 
     public DomainException() {
         super();

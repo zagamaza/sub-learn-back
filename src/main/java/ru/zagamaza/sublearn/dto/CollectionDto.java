@@ -43,6 +43,7 @@ public class CollectionDto {
                             .created(entity.getCreated())
                             .name(entity.getName())
                             .lang(entity.getLang())
+                            .isSerial(entity.isSerial())
                             .build();
     }
 

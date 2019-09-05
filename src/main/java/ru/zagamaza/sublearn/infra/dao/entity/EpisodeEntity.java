@@ -45,9 +45,11 @@ public class EpisodeEntity {
     public static EpisodeEntity from(EpisodeDto dto) {
         return new EpisodeEntity(
                 dto.getId(),
-                dto.getWords().stream()
-                   .map(WordEntity::from)
-                   .collect(Collectors.toList()),
+                dto.getWords() == null
+                        ? null
+                        : dto.getWords().stream()
+                             .map(WordEntity::from)
+                             .collect(Collectors.toList()),
                 CollectionEntity.builder().id(dto.getCollectionDto().getId()).build(),
                 dto.getSeason(),
                 dto.getEpisode()

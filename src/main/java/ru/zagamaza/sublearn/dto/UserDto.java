@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.infra.dao.entity.UserEntity;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Data
 @Builder
@@ -21,16 +18,42 @@ public class UserDto {
 
     private Long id;
 
+    private Long telegramId;
+
+    @NotNull
+    private String userName;
+
     @Email
     private String email;
 
     private LocalDateTime created;
 
+    private UserSettingDto userSettingDto;
+
     public static UserDto from(UserEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return new UserDto(
                 entity.getId(),
+                entity.getTelegramId(),
+                entity.getUserName(),
                 entity.getEmail(),
-                entity.getCreated()
+                entity.getCreated(),
+                entity.getUserSettingEntity() == null
+                        ? new UserSettingDto(null, entity.getId(), 20, 4, false, 75, true)
+                        : UserSettingDto.from(entity.getUserSettingEntity())
+        );
+    }
+
+    public static UserDto from(UserRequest userRequest) {
+        return new UserDto(
+                userRequest.getId(),
+                userRequest.getTelegramId(),
+                userRequest.getUserName(),
+                userRequest.getEmail(),
+                userRequest.getCreated(),
+                null
         );
     }
 

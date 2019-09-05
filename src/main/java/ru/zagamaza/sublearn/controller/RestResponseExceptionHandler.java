@@ -10,13 +10,15 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.zagamaza.sublearn.controller.presenter.ErrorPresenter;
-import ru.zagamaza.sublearn.domain.exception.DomainException;
 import ru.zagamaza.sublearn.dto.ErrorResponse;
+import ru.zagamaza.sublearn.exception.domain.DomainException;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@ApiIgnore
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class RestResponseExceptionHandler {
