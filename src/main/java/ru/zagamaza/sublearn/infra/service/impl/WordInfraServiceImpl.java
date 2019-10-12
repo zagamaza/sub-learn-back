@@ -4,13 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.zagamaza.sublearn.domain.exception.NotFoundException;
 import ru.zagamaza.sublearn.dto.WordDto;
+import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.WordEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.WorldRepository;
-import ru.zagamaza.sublearn.infra.service.api.WordInfraService;
+import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,30 @@ public class WordInfraServiceImpl implements WordInfraService {
                 .orElseThrow(() -> new NotFoundException(getMessage("word.not.found.exception", name)));
 
         return WordDto.from(entity);
+    }
+
+    @Override
+    public List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Integer countWord) {
+        List<Long> wordIds = repository.findRandomWordsByEpisodeId(episodeId, countWord);
+        return wordIds.stream()
+                      .map(this::get)
+                      .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> removeWordsAlreadySave(List<String> words, List<WordDto> wordDtos) {
+        words = words.stream()
+                     .filter(word -> {
+                         try {
+                             WordDto wordDto = getByName(word);
+                             if (wordDto != null) {
+                                 wordDtos.add(wordDto);
+                                 return false;
+                             }
+                         } catch (Exception ignored) {}
+                         return true;
+                     }).collect(Collectors.toList());
+        return words;
     }
 
     private String getMessage(String key, Object... args) {

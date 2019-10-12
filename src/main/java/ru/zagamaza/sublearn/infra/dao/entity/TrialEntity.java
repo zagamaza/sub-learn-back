@@ -7,7 +7,17 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import ru.zagamaza.sublearn.dto.TrialDto;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,31 +39,26 @@ public class TrialEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userEntity;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "episode_id", nullable = false)
+    private EpisodeEntity episodeEntity;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "collection_id", nullable = false)
-    private CollectionEntity collectionEntity;
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "trialEntity")
+    private List<TrialWordEntity> trialWordEntity;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    private List<ResultEntity> resultEntity;
-
-    @Formula("(select count(1)+1\n" +
-            "        from trials t\n" +
-            "                 join results r on t.id = r.trial_id\n" +
-            "                 join words w2 on r.word_id = w2.id\n" +
-            "        where t.id = id) *100/ (select count(1)+1\n" +
-            "                                  from trials t\n" +
-            "                                           join collections c on t.collection_id = c.id\n" +
-            "                                           join collections_world_entities cwe on c.id = cwe.collection_entity_id\n" +
-            "                                           join words w on cwe.world_entities_id = w.id\n" +
-            "                                  where t.id = id)")
+    @Formula("(select count(1) from trial_word tw\n" +
+                     "        where tw.trial_id = id and tw.is_passed is true) *  100/\n" +
+                     "       (case when (select count(1) from trial_word tw\n" +
+                     "                   where tw.trial_id = id)!=0\n" +
+                     "             then (select count(1) from trial_word tw\n" +
+                     "                   where tw.trial_id = id) else 1 end)")
     private Integer percent;
 
-    @Formula("(select count(1) + 1 from results o where o.trial_id = id and o.is_right is true)*100/" +
-            "(select count(1) + 1  from results o where o.trial_id = id)")
+    @Formula(
+            "(select count(1) from trial_word o where o.trial_id = id and o.is_right is true) * 100 /\n" +
+                    "       (case when (select count(1) from trial_word o where o.trial_id = id)!= 0\n" +
+                    "             then (select count(1) from trial_word o where o.trial_id = id)\n" +
+                    "             else 1 end )")
     private Integer correctPercent;
 
     private LocalDateTime created;
@@ -63,13 +68,12 @@ public class TrialEntity {
         return new TrialEntity(
                 dto.getId(),
                 dto.getName(),
-                UserEntity.from(dto.getUserDto()),
-                CollectionEntity.compressedFrom(dto.getCollectionDto()),
-                isEmpty(dto.getResults())
+                EpisodeEntity.builder().id(dto.getEpisodeDto().getId()).build(),
+                isEmpty(dto.getTrialWords())
                         ? null
-                        : dto.getResults().stream()
-                        .map(ResultEntity::from)
-                        .collect(Collectors.toList()),
+                        : dto.getTrialWords().stream()
+                             .map(TrialWordEntity::from)
+                             .collect(Collectors.toList()),
                 dto.getPercent(),
                 dto.getPercent(),
                 dto.getCreated()

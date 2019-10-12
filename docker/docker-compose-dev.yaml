@@ -10,4 +10,4 @@ services:
       POSTGRES_PASSWORD: passw0rd
       POSTGRES_DB: sublearndb
     ports:
-      - 5432:5432
+      - 15432:5432

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
+import ru.zagamaza.sublearn.infra.dao.entity.Lang;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -20,13 +21,19 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 public class CollectionDto {
 
     private Long id;
-    private List<WordDto> words;
+
+    private List<EpisodeDto> episodeDtos;
+
+    private UserDto userDto;
 
     @NotNull
-    private String lang;
+    private Lang lang;
 
     @NotNull
     private String name;
+
+    private boolean isSerial;
+
     private LocalDateTime created;
 
 
@@ -36,21 +43,36 @@ public class CollectionDto {
                             .created(entity.getCreated())
                             .name(entity.getName())
                             .lang(entity.getLang())
+                            .isSerial(entity.isSerial())
                             .build();
     }
 
     public static CollectionDto from(CollectionEntity entity) {
         return new CollectionDto(
                 entity.getId(),
-                isEmpty(entity.getWorldEntities())
+                isEmpty(entity.getEpisodeEntities())
                         ? null
-                        : entity.getWorldEntities().stream()
-                                .map(WordDto::from)
-                                .collect(Collectors.toList())
-                ,
+                        : entity.getEpisodeEntities()
+                                .stream()
+                                .map(EpisodeDto::from)
+                                .collect(Collectors.toList()),
+                UserDto.from(entity.getUserEntity()),
                 entity.getLang(),
                 entity.getName(),
+                entity.isSerial(),
                 entity.getCreated()
+        );
+    }
+
+    public static CollectionDto from(CollectionRequest request) {
+        return new CollectionDto(
+                request.getId(),
+                null,
+                UserDto.builder().id(request.getUserId()).build(),
+                request.getLang(),
+                request.getName(),
+                request.isSerial(),
+                request.getCreated()
         );
     }
 

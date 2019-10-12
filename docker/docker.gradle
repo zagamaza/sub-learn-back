@@ -24,10 +24,10 @@ import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 
-
-docker {
-    url = 'tcp://127.0.0.1:2375'
-}
+//
+//docker {
+//    url = 'tcp://localhost:2375'
+//}
 
 task copyDockerfile(group: 'docker', type: Copy) {
     dependsOn 'bootJar'
