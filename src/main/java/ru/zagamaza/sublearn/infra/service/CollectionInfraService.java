@@ -24,4 +24,6 @@ public interface CollectionInfraService {
 
     List<CollectionCondensedDto> findByContainsName(String collectionName, Pageable pageable);
 
+    CollectionDto copyCollectionToUser(Long id, Long userId);
+
 }

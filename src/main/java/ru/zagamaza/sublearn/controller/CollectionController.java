@@ -43,6 +43,11 @@ public class CollectionController {
         return service.findByContainsName(collectionName, pageable);
     }
 
+    @GetMapping("/{id}/users/{userId}/copy")
+    public CollectionDto copy(@PathVariable Long id, @PathVariable Long userId) {
+        return service.copyCollectionToUser(id, userId);
+    }
+
     @PutMapping
     public CollectionDto update(@Valid @RequestBody CollectionRequest collectionRequest) {
         return service.update(CollectionDto.from(collectionRequest));
