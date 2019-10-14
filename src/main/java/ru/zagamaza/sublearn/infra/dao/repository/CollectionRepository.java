@@ -11,5 +11,8 @@ import java.util.List;
 public interface CollectionRepository extends JpaRepository<CollectionEntity, Long> {
 
     List<CollectionEntity> findAllByUserEntityId(Long userId, Pageable pageable);
+
+    List<CollectionEntity> findAllByNameContainingAndUrlIsNotNullAndIsSharedIsTrue(String name, Pageable pageable);
+
 }
 

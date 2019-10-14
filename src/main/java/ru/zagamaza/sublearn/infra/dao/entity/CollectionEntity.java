@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -50,6 +51,11 @@ public class CollectionEntity {
 
     private String name;
 
+    private String url;
+
+    @Column(name = "is_shared")
+    private boolean isShared;
+
     @Column(name = "is_serial")
     private boolean isSerial;
 
@@ -68,6 +74,8 @@ public class CollectionEntity {
                 UserEntity.from(dto.getUserDto()),
                 dto.getLang(),
                 dto.getName(),
+                dto.getUrl(),
+                dto.isShared(),
                 dto.isSerial(),
                 dto.getCreated()
         );
@@ -83,6 +91,8 @@ public class CollectionEntity {
                 UserEntity.from(dto.getUserDto()),
                 dto.getLang(),
                 dto.getName(),
+                dto.getUrl(),
+                dto.isShared(),
                 dto.isSerial(),
                 LocalDateTime.now()
         );

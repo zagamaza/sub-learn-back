@@ -29,6 +29,10 @@ public class CollectionRequest {
     @NotNull
     private String name;
 
+    private String url;
+
+    private boolean isShared;
+
     private LocalDateTime created;
 
     private boolean isSerial;

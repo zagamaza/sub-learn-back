@@ -6,15 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.zagamaza.sublearn.domain.service.CollectionService;
-import ru.zagamaza.sublearn.domain.service.UserSettingService;
 import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
 import ru.zagamaza.sublearn.dto.CollectionDto;
-import ru.zagamaza.sublearn.dto.UserSettingDto;
 import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.CollectionRepository;
 import ru.zagamaza.sublearn.infra.service.CollectionInfraService;
-import ru.zagamaza.sublearn.infra.service.UserSettingInfraService;
 
 import java.util.List;
 import java.util.Locale;
@@ -31,9 +28,9 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     @Override
     public CollectionDto get(Long id) {
         CollectionEntity entity = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(getMessage(
-                        "collection.not.found.exception", id
-                )));
+                                            .orElseThrow(() -> new NotFoundException(getMessage(
+                                                    "collection.not.found.exception", id
+                                            )));
         return CollectionDto.from(entity);
     }
 
@@ -68,9 +65,9 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     @Override
     public List<CollectionCondensedDto> getCondensedCollectionByUserId(Long userId, Pageable pageable) {
         return repository.findAllByUserEntityId(userId, pageable)
-                .stream()
-                .map(CollectionCondensedDto::from)
-                .collect(Collectors.toList());
+                         .stream()
+                         .map(CollectionCondensedDto::from)
+                         .collect(Collectors.toList());
     }
 
     @Override
@@ -78,6 +75,14 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
         CollectionDto collectionDto = get(id);
         collectionDto.setSerial(isSerial);
         return save(collectionDto);
+    }
+
+    @Override
+    public List<CollectionCondensedDto> findByContainsName(String collectionName, Pageable pageable) {
+        return repository.findAllByNameContainingAndUrlIsNotNullAndIsSharedIsTrue(collectionName, pageable)
+                         .stream()
+                         .map(CollectionCondensedDto::from)
+                         .collect(Collectors.toList());
     }
 
     private String getMessage(String key, Object... args) {
