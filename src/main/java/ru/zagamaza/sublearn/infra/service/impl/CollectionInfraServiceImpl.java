@@ -6,7 +6,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zagamaza.sublearn.domain.service.CollectionService;
 import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
 import ru.zagamaza.sublearn.dto.CollectionDto;
@@ -98,6 +97,8 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
                                             .orElseThrow(() -> new NotFoundException(getMessage(
                                                     "collection.not.found.exception", id
                                             )));
+        entity.setRating(entity.getRating() + 1);
+        repository.save(entity);
         CollectionEntity collectionEntity = new CollectionEntity();
         BeanUtils.copyProperties(entity, collectionEntity);
         collectionEntity.setEpisodeEntities(new ArrayList<>(entity.getEpisodeEntities()));
