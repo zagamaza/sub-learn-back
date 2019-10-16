@@ -32,6 +32,12 @@ public class CollectionDto {
     @NotNull
     private String name;
 
+    private String url;
+
+    private Integer rating;
+
+    private boolean isShared;
+
     private boolean isSerial;
 
     private LocalDateTime created;
@@ -59,6 +65,9 @@ public class CollectionDto {
                 UserDto.from(entity.getUserEntity()),
                 entity.getLang(),
                 entity.getName(),
+                entity.getUrl(),
+                entity.getRating(),
+                entity.isShared(),
                 entity.isSerial(),
                 entity.getCreated()
         );
@@ -71,6 +80,9 @@ public class CollectionDto {
                 UserDto.builder().id(request.getUserId()).build(),
                 request.getLang(),
                 request.getName(),
+                request.getUrl(),
+                request.getRating(),
+                request.isShared(),
                 request.isSerial(),
                 request.getCreated()
         );

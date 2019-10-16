@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
 import ru.zagamaza.sublearn.infra.dao.entity.Lang;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -28,6 +25,12 @@ public class CollectionRequest {
 
     @NotNull
     private String name;
+
+    private String url;
+
+    private Integer rating;
+
+    private boolean isShared;
 
     private LocalDateTime created;
 

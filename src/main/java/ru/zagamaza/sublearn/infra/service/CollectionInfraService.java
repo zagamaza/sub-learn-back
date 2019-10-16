@@ -22,4 +22,6 @@ public interface CollectionInfraService {
 
     CollectionDto updateIsSerial(Long id, Boolean isSerial);
 
+    List<CollectionCondensedDto> findByContainsName(String collectionName, Pageable pageable);
+
 }
