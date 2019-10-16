@@ -12,7 +12,7 @@ public interface CollectionRepository extends JpaRepository<CollectionEntity, Lo
 
     List<CollectionEntity> findAllByUserEntityId(Long userId, Pageable pageable);
 
-    List<CollectionEntity> findAllByNameContainingAndUrlIsNotNullAndIsSharedIsTrue(String name, Pageable pageable);
+    List<CollectionEntity> findAllByNameContainingIgnoreCaseAndUrlIsNotNullAndIsSharedIsTrueOrderByRatingDesc(String name, Pageable pageable);
 
 }
 
