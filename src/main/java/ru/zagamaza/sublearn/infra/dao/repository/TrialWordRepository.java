@@ -20,26 +20,8 @@ public interface TrialWordRepository extends JpaRepository<TrialWordEntity, Long
             "         join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
             "         join words w on ewe.world_entities_id = w.id\n" +
             "where t.id = :trialId\n" +
-            "order by not exists(select 1\n" +
-            "                    from episodes e\n" +
-            "                             join collections c on e.collection_id = c.id\n" +
-            "                             join trials t2 on e.id = t2.episode_id\n" +
-            "                             join episodes_world_entities ewe2 on e.id = ewe2.episode_entity_id\n" +
-            "                             join trial_word tw on t2.id = tw.trial_id\n" +
-            "                    where t.id = t2.id\n" +
-            "                      and ewe.world_entities_id = tw.word_id\n" +
-            "                      and tw.is_passed is true\n" +
-            "                      and tw.is_right is false),\n" +
-            "         exists(select 1\n" +
-            "                from episodes e\n" +
-            "                         join collections c on e.collection_id = c.id\n" +
-            "                         join trials t2 on e.id = t2.episode_id\n" +
-            "                         join episodes_world_entities ewe2 on e.id = ewe2.episode_entity_id\n" +
-            "                         join trial_word tw on t2.id = tw.trial_id\n" +
-            "                         join user_word u on tw.word_id = u.word_id\n" +
-            "                where t.id = t2.id\n" +
-            "                  and ewe.world_entities_id = tw.word_id),\n" +
-            "         (select rate from user_word uw where c.user_id = uw.user_id and w.id = uw.word_id), random()",
+            "order by (select rate from user_word uw where c.user_id = uw.user_id and w.id = uw.word_id) nulls first" +
+            ", random()",
            countQuery = "select ewe.world_entities_id\n" +
                    "from episodes e\n" +
                    "         join collections c on e.collection_id = c.id\n" +
@@ -47,26 +29,8 @@ public interface TrialWordRepository extends JpaRepository<TrialWordEntity, Long
                    "         join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
                    "         join words w on ewe.world_entities_id = w.id\n" +
                    "where t.id = :trialId\n" +
-                   "order by not exists(select 1\n" +
-                   "                    from episodes e\n" +
-                   "                             join collections c on e.collection_id = c.id\n" +
-                   "                             join trials t2 on e.id = t2.episode_id\n" +
-                   "                             join episodes_world_entities ewe2 on e.id = ewe2.episode_entity_id\n" +
-                   "                             join trial_word tw on t2.id = tw.trial_id\n" +
-                   "                    where t.id = t2.id\n" +
-                   "                      and ewe.world_entities_id = tw.word_id\n" +
-                   "                      and tw.is_passed is true\n" +
-                   "                      and tw.is_right is false),\n" +
-                   "         exists(select 1\n" +
-                   "                from episodes e\n" +
-                   "                         join collections c on e.collection_id = c.id\n" +
-                   "                         join trials t2 on e.id = t2.episode_id\n" +
-                   "                         join episodes_world_entities ewe2 on e.id = ewe2.episode_entity_id\n" +
-                   "                         join trial_word tw on t2.id = tw.trial_id\n" +
-                   "                         join user_word u on tw.word_id = u.word_id\n" +
-                   "                where t.id = t2.id\n" +
-                   "                  and ewe.world_entities_id = tw.word_id),\n" +
-                   "         (select rate from user_word uw where c.user_id = uw.user_id and w.id = uw.word_id), random()",
+                   "order by (select rate from user_word uw where c.user_id = uw.user_id and w.id = uw.word_id) nulls first" +
+                   ", random()",
            nativeQuery = true)
     List<Long> getWordIdsForTrial(@Param("trialId") Long trialId, Pageable pageable);
 
