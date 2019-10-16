@@ -53,6 +53,8 @@ public class CollectionEntity {
 
     private String url;
 
+    private Integer rating;
+
     @Column(name = "is_shared")
     private boolean isShared;
 
@@ -75,6 +77,7 @@ public class CollectionEntity {
                 dto.getLang(),
                 dto.getName(),
                 dto.getUrl(),
+                dto.getRating(),
                 dto.isShared(),
                 dto.isSerial(),
                 dto.getCreated()
@@ -92,6 +95,7 @@ public class CollectionEntity {
                 dto.getLang(),
                 dto.getName(),
                 dto.getUrl(),
+                dto.getRating(),
                 dto.isShared(),
                 dto.isSerial(),
                 LocalDateTime.now()

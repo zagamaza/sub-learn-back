@@ -34,6 +34,8 @@ public class CollectionDto {
 
     private String url;
 
+    private Integer rating;
+
     private boolean isShared;
 
     private boolean isSerial;
@@ -64,6 +66,7 @@ public class CollectionDto {
                 entity.getLang(),
                 entity.getName(),
                 entity.getUrl(),
+                entity.getRating(),
                 entity.isShared(),
                 entity.isSerial(),
                 entity.getCreated()
@@ -78,6 +81,7 @@ public class CollectionDto {
                 request.getLang(),
                 request.getName(),
                 request.getUrl(),
+                request.getRating(),
                 request.isShared(),
                 request.isSerial(),
                 request.getCreated()

@@ -79,10 +79,14 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
 
     @Override
     public List<CollectionCondensedDto> findByContainsName(String collectionName, Pageable pageable) {
-        return repository.findAllByNameContainingAndUrlIsNotNullAndIsSharedIsTrue(collectionName, pageable)
-                         .stream()
-                         .map(CollectionCondensedDto::from)
-                         .collect(Collectors.toList());
+        return repository
+                .findAllByNameContainingIgnoreCaseAndUrlIsNotNullAndIsSharedIsTrueOrderByRatingDesc(
+                        collectionName,
+                        pageable
+                )
+                .stream()
+                .map(CollectionCondensedDto::from)
+                .collect(Collectors.toList());
     }
 
     private String getMessage(String key, Object... args) {
