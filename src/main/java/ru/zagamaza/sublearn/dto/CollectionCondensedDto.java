@@ -18,6 +18,9 @@ public class CollectionCondensedDto {
     private Long id;
     private Lang lang;
     private String name;
+    private String url;
+    private Integer rating;
+    private boolean isShared;
     private Boolean isSerial;
     private LocalDateTime created;
 
@@ -27,6 +30,9 @@ public class CollectionCondensedDto {
                 collectionDto.getId(),
                 collectionDto.getLang(),
                 collectionDto.getName(),
+                collectionDto.getUrl(),
+                collectionDto.getRating(),
+                collectionDto.isShared(),
                 collectionDto.isSerial(),
                 collectionDto.getCreated()
         );
@@ -37,6 +43,9 @@ public class CollectionCondensedDto {
                 entity.getId(),
                 entity.getLang(),
                 entity.getName(),
+                entity.getUrl(),
+                entity.getRating(),
+                entity.isShared(),
                 entity.isSerial(),
                 entity.getCreated()
         );
