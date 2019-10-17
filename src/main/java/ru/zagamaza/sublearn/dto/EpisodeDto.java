@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.infra.dao.entity.EpisodeEntity;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -19,7 +20,7 @@ public class EpisodeDto {
 
     private Long id;
 
-    List<WordDto> words;
+    private Set<WordDto> words;
 
     private CollectionDto collectionDto;
 
@@ -36,7 +37,7 @@ public class EpisodeDto {
                         ? null
                         : entity.getWorldEntities().stream()
                                 .map(WordDto::from)
-                                .collect(Collectors.toList()),
+                                .collect(Collectors.toSet()),
                 entity.getCollectionEntity() == null
                         ? null
                         : CollectionDto.compressedFrom(entity.getCollectionEntity()),

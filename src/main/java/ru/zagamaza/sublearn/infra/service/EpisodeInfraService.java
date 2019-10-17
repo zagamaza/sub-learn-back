@@ -12,6 +12,8 @@ public interface EpisodeInfraService {
 
     EpisodeDto get(Long id);
 
+    EpisodeDto getWithWords(Long id);
+
     List<EpisodeDto> getAll(Pageable pageable);
 
     @Transactional
