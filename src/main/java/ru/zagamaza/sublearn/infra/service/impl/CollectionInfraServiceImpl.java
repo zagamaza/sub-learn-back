@@ -11,6 +11,7 @@ import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
 import ru.zagamaza.sublearn.dto.CollectionDto;
 import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
+import ru.zagamaza.sublearn.infra.dao.entity.UserEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.CollectionRepository;
 import ru.zagamaza.sublearn.infra.service.CollectionInfraService;
 
@@ -103,6 +104,7 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
         BeanUtils.copyProperties(entity, collectionEntity);
         collectionEntity.setEpisodeEntities(new ArrayList<>(entity.getEpisodeEntities()));
         collectionEntity.setId(null);
+        collectionEntity.setUserEntity(UserEntity.builder().id(userId).build());
         collectionEntity.setShared(false);
         collectionEntity = repository.save(collectionEntity);
         return CollectionDto.from(collectionEntity);
