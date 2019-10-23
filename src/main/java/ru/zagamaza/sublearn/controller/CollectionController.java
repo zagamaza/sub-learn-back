@@ -38,6 +38,11 @@ public class CollectionController {
         return service.getCondensedCollectionByUserId(userId, pageable);
     }
 
+    @GetMapping("/condensed/users/{userId}/count")
+    public Integer getCountCollectionByUserId(@PathVariable Long userId) {
+        return service.getCountCollectionByUserId(userId);
+    }
+
     @GetMapping
     public List<CollectionCondensedDto> search(@RequestParam String collectionName, Pageable pageable) {
         return service.findByContainsName(collectionName, pageable);

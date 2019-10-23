@@ -44,6 +44,10 @@ public class TrialController {
     public List<TrialCondensedDto> getLastConsedTrial(@PathVariable Long userId, Pageable pageable) {
         return service.getLastConsedTrialByUserId(userId, pageable);
     }
+    @GetMapping("/condensed/users/{userId}/count")
+    public Integer getLastConsedTrial(@PathVariable Long userId) {
+        return service.getCountTrialByUserId(userId);
+    }
 
     @GetMapping("/nextWord")
     public TranslateOptionDto getTranslateOptionDto(@RequestParam Long trialId) {

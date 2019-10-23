@@ -14,6 +14,8 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
 
     List<EpisodeEntity> findAllByCollectionEntityId(Long collectionId, Pageable pageable);
 
+    Integer countByCollectionEntityId(Long collectionId);
+
     @Query(value = "select (select count(1)\n" +
             "        from episodes e\n" +
             "                 join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +

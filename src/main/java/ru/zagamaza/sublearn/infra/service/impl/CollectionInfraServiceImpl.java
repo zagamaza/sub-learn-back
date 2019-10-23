@@ -111,6 +111,11 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
         repository.deleteLinkUserToCollection(id, userId);
     }
 
+    @Override
+    public Integer getCountCollectionByUserId(Long userId) {
+        return repository.countByUserEntityId(userId);
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

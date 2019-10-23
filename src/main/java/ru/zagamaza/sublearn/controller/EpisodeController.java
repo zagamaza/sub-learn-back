@@ -38,6 +38,11 @@ public class EpisodeController {
         return service.getAllByCollectionId(collectionId, pageable);
     }
 
+    @GetMapping("/collections/{collectionId}/count")
+    public Integer getCountByCollectionId(@PathVariable Long collectionId) {
+        return service.getCountByCollectionId(collectionId);
+    }
+
     @PostMapping
     public EpisodeDto create(@Valid @RequestBody EpisodeRequest episodeRequest) {
         EpisodeDto episodeDto = EpisodeDto.from(episodeRequest);
