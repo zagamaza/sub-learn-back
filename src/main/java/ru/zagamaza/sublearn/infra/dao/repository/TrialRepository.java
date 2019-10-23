@@ -17,12 +17,14 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
     @Query(value = "select t.id from trials t \n" +
             "join episodes e on t.episode_id = e.id\n" +
             "join collections c on e.collection_id = c.id\n" +
-            "join users u on c.user_id = u.id\n" +
+            "join user_to_collection utc on c.id = utc.collection_id\n" +
+            "join users u on utc.user_id = u.id\n" +
             "where u.id = :userId",
            countQuery = "select count(1) from trials t \n" +
                    "join episodes e on t.episode_id = e.id\n" +
                    "join collections c on e.collection_id = c.id\n" +
-                   "join users u on c.user_id = u.id\n" +
+                   "join user_to_collection utc on c.id = utc.collection_id\n" +
+                   "join users u on utc.user_id = u.id\n" +
                    "where u.id = :userId",
            nativeQuery = true)
     List<Long> findAllByUserId(@Param("userId") Long userId, Pageable pageable);

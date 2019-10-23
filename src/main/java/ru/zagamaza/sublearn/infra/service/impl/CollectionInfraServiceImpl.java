@@ -1,21 +1,19 @@
 package ru.zagamaza.sublearn.infra.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.zagamaza.sublearn.domain.service.CollectionService;
 import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
 import ru.zagamaza.sublearn.dto.CollectionDto;
 import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.CollectionEntity;
-import ru.zagamaza.sublearn.infra.dao.entity.UserEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.CollectionRepository;
 import ru.zagamaza.sublearn.infra.service.CollectionInfraService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -52,6 +50,14 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
         collectionService.updateCollection(saveDto, updateDto);
         return save(saveDto);
 
+    }
+
+    @Override
+    @Transactional
+    public CollectionDto saveCollectionAndLinkUser(CollectionDto dto) {
+        CollectionEntity entity = repository.save(CollectionEntity.from(dto));
+        repository.saveLinkUserToCollection(entity.getId(), dto.getUserId());
+        return CollectionDto.from(entity);
     }
 
     @Override
@@ -93,21 +99,16 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     }
 
     @Override
+    @Transactional
     public CollectionDto copyCollectionToUser(Long id, Long userId) {
-        CollectionEntity entity = repository.findById(id)
-                                            .orElseThrow(() -> new NotFoundException(getMessage(
-                                                    "collection.not.found.exception", id
-                                            )));
-        entity.setRating(entity.getRating() + 1);
-        repository.save(entity);
-        CollectionEntity collectionEntity = new CollectionEntity();
-        BeanUtils.copyProperties(entity, collectionEntity);
-        collectionEntity.setEpisodeEntities(new ArrayList<>(entity.getEpisodeEntities()));
-        collectionEntity.setId(null);
-        collectionEntity.setUserEntity(UserEntity.builder().id(userId).build());
-        collectionEntity.setShared(false);
-        collectionEntity = repository.save(collectionEntity);
-        return CollectionDto.from(collectionEntity);
+        repository.saveLinkUserToCollection(id, userId);
+        return get(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteLink(Long id, Long userId) {
+        repository.deleteLinkUserToCollection(id, userId);
     }
 
     private String getMessage(String key, Object... args) {

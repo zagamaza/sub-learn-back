@@ -16,9 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -41,10 +38,6 @@ public class CollectionEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "collectionEntity")
     private List<EpisodeEntity> episodeEntities;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
 
     @Enumerated(value = EnumType.STRING)
     private Lang lang;
@@ -73,7 +66,6 @@ public class CollectionEntity {
                              .stream()
                              .map(EpisodeEntity::from)
                              .collect(Collectors.toList()),
-                UserEntity.from(dto.getUserDto()),
                 dto.getLang(),
                 dto.getName(),
                 dto.getUrl(),
@@ -91,7 +83,6 @@ public class CollectionEntity {
                    .stream()
                    .map(EpisodeEntity::from)
                    .collect(Collectors.toList()),
-                UserEntity.from(dto.getUserDto()),
                 dto.getLang(),
                 dto.getName(),
                 dto.getUrl(),

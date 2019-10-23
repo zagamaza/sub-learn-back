@@ -56,7 +56,6 @@ public class TrialInfraServiceImpl implements TrialInfraService {
     }
 
     @Override
-    @Transactional
     public TrialDto saveTrialAndTrialWords(TrialDto dto) {
         TrialDto trialDto = save(dto);
         trialDto.setTrialWords(trialWordInfraService.saveWordTrialsForTrial(trialDto));

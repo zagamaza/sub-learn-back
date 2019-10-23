@@ -60,13 +60,19 @@ public class CollectionController {
 
     @PostMapping
     public CollectionDto create(@Valid @RequestBody CollectionRequest collectionRequest) {
-        return service.save(CollectionDto.from(collectionRequest));
+        return service.saveCollectionAndLinkUser(CollectionDto.from(collectionRequest));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         service.removeById(id);
+    }
+
+    @DeleteMapping("/{id}/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteLinkUserToCollection(@PathVariable Long id, @PathVariable Long userId) {
+        service.deleteLink(id, userId);
     }
 
 }

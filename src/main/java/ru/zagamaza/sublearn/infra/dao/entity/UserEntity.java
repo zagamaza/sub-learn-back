@@ -14,11 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -46,6 +49,12 @@ public class UserEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userEntity")
     private List<UserWordEntity> userWordEntities;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_to_collection",
+               joinColumns = @JoinColumn(name = "user_id"),
+               inverseJoinColumns = @JoinColumn(name = "collection_id"))
+    private Set<CollectionEntity> collectionEntities;
 
     public static UserEntity from(UserDto dto) {
         return UserEntity.builder()

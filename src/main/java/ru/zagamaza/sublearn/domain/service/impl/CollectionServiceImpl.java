@@ -21,6 +21,8 @@ public class CollectionServiceImpl implements CollectionService {
         saveDto.setCreated(LocalDateTime.now());
         saveDto.setLang(updateDto.getLang());
         saveDto.setName(updateDto.getName());
+        saveDto.setUrl(updateDto.getUrl());
+        saveDto.setShared(updateDto.isShared());
         saveDto.setSerial(updateDto.isSerial());
         return saveDto;
     }

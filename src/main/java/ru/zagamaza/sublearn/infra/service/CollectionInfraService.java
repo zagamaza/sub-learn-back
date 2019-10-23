@@ -14,6 +14,8 @@ public interface CollectionInfraService {
 
     CollectionDto update(CollectionDto dto);
 
+    CollectionDto saveCollectionAndLinkUser(CollectionDto dto);
+
     CollectionDto save(CollectionDto dto);
 
     void removeById(long id);
@@ -25,5 +27,7 @@ public interface CollectionInfraService {
     List<CollectionCondensedDto> findByContainsName(String collectionName, Pageable pageable);
 
     CollectionDto copyCollectionToUser(Long id, Long userId);
+
+    void deleteLink(Long id, Long userId);
 
 }

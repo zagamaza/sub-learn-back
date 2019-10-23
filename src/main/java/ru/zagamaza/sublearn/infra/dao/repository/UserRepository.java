@@ -16,7 +16,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByTelegramId(Long telegramId);
 
     @Query(value = "select u.id from users u\n" +
-            "    join collections c on u.id = c.user_id\n" +
+            "    join user_to_collection utc on u.id = utc.user_id\n" +
+            "    join collections c on u.id = utc.user_id\n" +
             "    join episodes e on c.id = e.collection_id\n" +
             "    join trials t on e.id = t.episode_id\n" +
             "where t.id = :trialId limit 1;", nativeQuery = true)

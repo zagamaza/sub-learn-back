@@ -24,7 +24,7 @@ public class CollectionDto {
 
     private List<EpisodeDto> episodeDtos;
 
-    private UserDto userDto;
+    private Long userId;
 
     @NotNull
     private Lang lang;
@@ -62,7 +62,7 @@ public class CollectionDto {
                                 .stream()
                                 .map(EpisodeDto::from)
                                 .collect(Collectors.toList()),
-                UserDto.from(entity.getUserEntity()),
+                null,
                 entity.getLang(),
                 entity.getName(),
                 entity.getUrl(),
@@ -77,7 +77,7 @@ public class CollectionDto {
         return new CollectionDto(
                 request.getId(),
                 null,
-                UserDto.builder().id(request.getUserId()).build(),
+                request.getUserId(),
                 request.getLang(),
                 request.getName(),
                 request.getUrl(),
