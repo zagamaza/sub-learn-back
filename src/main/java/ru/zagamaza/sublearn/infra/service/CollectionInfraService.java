@@ -30,4 +30,6 @@ public interface CollectionInfraService {
 
     void deleteLink(Long id, Long userId);
 
+    Integer getCountCollectionByUserId(Long userId);
+
 }

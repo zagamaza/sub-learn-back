@@ -28,4 +28,6 @@ public interface EpisodeInfraService {
 
     List<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable);
 
+    Integer getCountByCollectionId(Long collectionId);
+
 }

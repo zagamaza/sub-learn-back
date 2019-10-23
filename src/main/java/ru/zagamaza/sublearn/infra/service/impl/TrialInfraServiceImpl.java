@@ -111,6 +111,11 @@ public class TrialInfraServiceImpl implements TrialInfraService {
         trialDto.setPercent(repository.getPercent(trialDto.getId()));
     }
 
+    @Override
+    public Integer getCountTrialByUserId(Long userId) {
+        return repository.countByUserId(userId);
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

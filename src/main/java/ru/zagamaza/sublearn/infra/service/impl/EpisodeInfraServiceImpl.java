@@ -124,6 +124,11 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                          .collect(Collectors.toList());
     }
 
+    @Override
+    public Integer getCountByCollectionId(Long collectionId) {
+        return repository.countByCollectionEntityId(collectionId);
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

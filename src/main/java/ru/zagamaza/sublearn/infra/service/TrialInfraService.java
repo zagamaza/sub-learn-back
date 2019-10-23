@@ -26,4 +26,6 @@ public interface TrialInfraService {
 
     void fillStatistic(TrialDto trialDto);
 
+    Integer getCountTrialByUserId(Long userId);
+
 }

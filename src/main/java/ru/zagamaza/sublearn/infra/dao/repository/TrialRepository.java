@@ -14,6 +14,15 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
 
     List<TrialEntity> findAllByOrderByCreatedDesc(Pageable pageable);
 
+    @Query(value = "select count(t.id) from trials t \n" +
+            "join episodes e on t.episode_id = e.id\n" +
+            "join collections c on e.collection_id = c.id\n" +
+            "join user_to_collection utc on c.id = utc.collection_id\n" +
+            "join users u on utc.user_id = u.id\n" +
+            "where u.id = :userId",
+           nativeQuery = true)
+    Integer countByUserId(@Param("userId") Long userId);
+
     @Query(value = "select t.id from trials t \n" +
             "join episodes e on t.episode_id = e.id\n" +
             "join collections c on e.collection_id = c.id\n" +

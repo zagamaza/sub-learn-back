@@ -31,5 +31,10 @@ public interface CollectionRepository extends JpaRepository<CollectionEntity, Lo
     @Modifying
     void deleteLinkUserToCollection(@Param("collectionId") Long collectionId, @Param("userId") Long userId);
 
+    @Query(value = "select count(1) from collections c \n" +
+            " join user_to_collection utc on c.id = utc.collection_id\n" +
+            " where utc.user_id = :userId", nativeQuery = true)
+    Integer countByUserEntityId(@Param("userId") Long userId);
+
 }
 
