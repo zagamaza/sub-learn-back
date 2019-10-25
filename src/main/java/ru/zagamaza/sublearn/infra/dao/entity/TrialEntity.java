@@ -46,6 +46,10 @@ public class TrialEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "trialEntity")
     private List<TrialWordEntity> trialWordEntity;
 
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity userEntity;
+
     @Formula("(select count(1) from trial_word tw\n" +
                      "        where tw.trial_id = id and tw.is_passed is true) *  100/\n" +
                      "       (case when (select count(1) from trial_word tw\n" +
@@ -74,6 +78,7 @@ public class TrialEntity {
                         : dto.getTrialWords().stream()
                              .map(TrialWordEntity::from)
                              .collect(Collectors.toList()),
+                UserEntity.builder().id(dto.getUserDto().getId()).build(),
                 dto.getPercent(),
                 dto.getPercent(),
                 dto.getCreated()

@@ -101,6 +101,7 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     @Override
     @Transactional
     public CollectionDto copyCollectionToUser(Long id, Long userId) {
+        repository.increaseRating(id);
         repository.saveLinkUserToCollection(id, userId);
         return get(id);
     }

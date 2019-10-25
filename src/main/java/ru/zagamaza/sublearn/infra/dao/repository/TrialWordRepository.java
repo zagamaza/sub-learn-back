@@ -16,7 +16,7 @@ public interface TrialWordRepository extends JpaRepository<TrialWordEntity, Long
             "from episodes e\n" +
             "         join collections c on e.collection_id = c.id\n" +
             "         join user_to_collection utc on c.id = utc.collection_id\n" +
-            "         join trials t on e.id = t.episode_id\n" +
+            "         join trials t on e.id = t.episode_id and utc.user_id = t.user_id\n" +
             "         join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
             "         join words w on ewe.world_entities_id = w.id\n" +
             "where t.id = :trialId\n" +
@@ -26,7 +26,7 @@ public interface TrialWordRepository extends JpaRepository<TrialWordEntity, Long
                    "from episodes e\n" +
                    "         join collections c on e.collection_id = c.id\n" +
                    "         join user_to_collection utc on c.id = utc.collection_id\n" +
-                   "         join trials t on e.id = t.episode_id\n" +
+                   "         join trials t on e.id = t.episode_id and utc.user_id = t.user_id\n" +
                    "         join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
                    "         join words w on ewe.world_entities_id = w.id\n" +
                    "where t.id = :trialId\n" +
@@ -35,12 +35,9 @@ public interface TrialWordRepository extends JpaRepository<TrialWordEntity, Long
            nativeQuery = true)
     List<Long> getWordIdsForTrial(@Param("trialId") Long trialId, Pageable pageable);
 
-    @Query(value = "select utc.user_id\n" +
+    @Query(value = "select t.user_id\n" +
             "       from trial_word tw\n" +
             "       join trials t on tw.trial_id = t.id\n" +
-            "       join episodes e on t.episode_id = e.id\n" +
-            "       join collections c on e.collection_id = c.id\n" +
-            "       join user_to_collection utc on c.id = utc.collection_id\n" +
             "       where tw.id = :trialWordId limit 1;", nativeQuery = true)
     Long getUserIdById(@Param("trialWordId") Long trialWordId);
 
