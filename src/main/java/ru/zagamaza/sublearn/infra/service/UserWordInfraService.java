@@ -18,4 +18,6 @@ public interface UserWordInfraService {
 
     UserWordDto save(Long wordId, Long userId, boolean isRight);
 
+    UserWordDto save(Long wordId, Long userId);
+
 }

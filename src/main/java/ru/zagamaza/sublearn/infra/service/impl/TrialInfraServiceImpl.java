@@ -3,7 +3,9 @@ package ru.zagamaza.sublearn.infra.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zagamaza.sublearn.domain.service.TrialService;
@@ -84,6 +86,7 @@ public class TrialInfraServiceImpl implements TrialInfraService {
         trialWordDto.setTrialDto(trialDto);
         List<WordDto> randomWords = wordInfraService.getRandomWordsByEpisodeId(
                 trialDto.getEpisodeDto().getId(),
+                trialWordDto.getWordDto().getId(),
                 userSettingDto.getAnswerOptionsCount() - 1
         );
         return trialService.fillTranslateOption(trialWordDto, randomWords);
@@ -91,12 +94,18 @@ public class TrialInfraServiceImpl implements TrialInfraService {
     }
 
     @Override
-    public List<TrialCondensedDto> getLastConsedTrialByUserId(Long userId, Pageable pageable) {
-        List<TrialDto> entities = repository.findAllByUserId(userId, pageable).stream()
+    public List<TrialCondensedDto> getNotFinishConsedTrialByUserId(Long userId, Pageable pageable) {
+        PageRequest episode_id = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by("episode_id")
+        );
+        List<TrialDto> entities = repository.findNotFinishTrialIdsByUserId(userId, episode_id).stream()
                                             .map(this::get)
                                             .collect(Collectors.toList());
         List<TrialCondensedDto> list = new ArrayList<>();
-        entities.stream().map(TrialCondensedDto::from)
+        entities.stream()
+                .map(TrialCondensedDto::from)
                 .forEach(trialCondensedDto -> {
                     trialCondensedDto.setCollectionName(repository.getTrialName(trialCondensedDto.getId()));
                     list.add(trialCondensedDto);
@@ -113,7 +122,19 @@ public class TrialInfraServiceImpl implements TrialInfraService {
 
     @Override
     public Integer getCountTrialByUserId(Long userId) {
-        return repository.countByUserId(userId);
+        return repository.countNotFinishTrialByUserId(userId);
+    }
+
+    @Override
+    public TrialDto getLastNotFinishTrialByEpisodeIdAndUserId(Long userId, Long episodeId) {
+        Long trialId = repository.findFirstByUserEntityIdAndEpisodeEntityId(
+                userId,
+                episodeId
+        );
+        if (trialId == null) {
+            return null;
+        }
+        return get(trialId);
     }
 
     private String getMessage(String key, Object... args) {

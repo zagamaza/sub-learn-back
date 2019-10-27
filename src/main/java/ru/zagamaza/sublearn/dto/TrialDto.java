@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.infra.dao.entity.TrialEntity;
+import ru.zagamaza.sublearn.infra.dao.entity.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,8 @@ public class TrialDto {
 
     private List<TrialWordDto> trialWords;
 
+    private UserDto userDto;
+
     private Integer percent;
 
     private Integer correctPercent;
@@ -36,6 +39,9 @@ public class TrialDto {
 
 
     public static TrialDto from(TrialEntity entity) {
+        if (entity == null){
+            return null;
+        }
         return new TrialDto(
                 entity.getId(),
                 entity.getName(),
@@ -45,6 +51,7 @@ public class TrialDto {
                         : entity.getTrialWordEntity().stream()
                                 .map(TrialWordDto::from)
                                 .collect(Collectors.toList()),
+                UserDto.from(entity.getUserEntity()),
                 entity.getPercent(),
                 entity.getCorrectPercent(),
                 entity.getCreated()
@@ -56,6 +63,7 @@ public class TrialDto {
         return new TrialDto(
                 entity.getId(),
                 entity.getName(),
+                null,
                 null,
                 null,
                 entity.getPercent(),
@@ -70,6 +78,7 @@ public class TrialDto {
                 trialRequest.getName(),
                 EpisodeDto.builder().id(trialRequest.getEpisodeId()).build(),
                 null,
+                UserDto.builder().id(trialRequest.getUserId()).build(),
                 null,
                 null,
                 trialRequest.getCreated()

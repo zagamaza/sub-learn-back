@@ -19,6 +19,9 @@ public class TrialRequest {
     @NotNull
     private Long episodeId;
 
+    @NotNull
+    private Long userId;
+
     private LocalDateTime created;
 
 }

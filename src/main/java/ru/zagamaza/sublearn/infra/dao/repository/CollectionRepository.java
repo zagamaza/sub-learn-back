@@ -36,5 +36,12 @@ public interface CollectionRepository extends JpaRepository<CollectionEntity, Lo
             " where utc.user_id = :userId", nativeQuery = true)
     Integer countByUserEntityId(@Param("userId") Long userId);
 
+    @Query(value = "update collections c\n" +
+            "set rating = (select cs.rating from collections cs where cs.id = :id) + 1\n" +
+            "where c.id = :id",
+           nativeQuery = true)
+    @Modifying
+    void increaseRating(@Param("id") Long id);
+
 }
 

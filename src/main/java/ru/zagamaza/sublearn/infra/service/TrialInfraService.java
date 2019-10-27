@@ -22,10 +22,12 @@ public interface TrialInfraService {
 
     TranslateOptionDto getNextWord(Long trialId);
 
-    List<TrialCondensedDto> getLastConsedTrialByUserId(Long userId, Pageable pageable);
+    List<TrialCondensedDto> getNotFinishConsedTrialByUserId(Long userId, Pageable pageable);
 
     void fillStatistic(TrialDto trialDto);
 
     Integer getCountTrialByUserId(Long userId);
+
+    TrialDto getLastNotFinishTrialByEpisodeIdAndUserId(Long userId, Long episodeId);
 
 }

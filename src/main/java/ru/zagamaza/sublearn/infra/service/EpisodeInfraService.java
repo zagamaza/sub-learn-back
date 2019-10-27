@@ -30,4 +30,6 @@ public interface EpisodeInfraService {
 
     Integer getCountByCollectionId(Long collectionId);
 
+    Integer getStatistic(Long id, Long userId);
+
 }
