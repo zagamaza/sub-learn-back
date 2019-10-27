@@ -40,7 +40,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                                          .orElseThrow(() -> new NotFoundException(
                                                  getMessage("episode.not.found.exception", id)
                                          ));
-        EpisodeDto episodeDto = EpisodeDto.from(entity);
+        EpisodeDto episodeDto = EpisodeDto.compressedFrom(entity);
         episodeDto.setLearnedPercent(repository.getLearnedPercent(entity.getId()));
         return episodeDto;
     }

@@ -46,10 +46,13 @@ public class CollectionDto {
     public static CollectionDto compressedFrom(CollectionEntity entity) {
         return CollectionDto.builder()
                             .id(entity.getId())
-                            .created(entity.getCreated())
-                            .name(entity.getName())
                             .lang(entity.getLang())
+                            .name(entity.getName())
+                            .url(entity.getUrl())
+                            .rating(entity.getRating())
+                            .isShared(entity.isShared())
                             .isSerial(entity.isSerial())
+                            .created(entity.getCreated())
                             .build();
     }
 

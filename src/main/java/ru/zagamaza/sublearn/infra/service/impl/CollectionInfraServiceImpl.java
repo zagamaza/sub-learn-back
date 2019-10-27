@@ -33,7 +33,7 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
                                             .orElseThrow(() -> new NotFoundException(getMessage(
                                                     "collection.not.found.exception", id
                                             )));
-        return CollectionDto.from(entity);
+        return CollectionDto.compressedFrom(entity);
     }
 
     @Override
