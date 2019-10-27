@@ -48,6 +48,11 @@ public class TrialWordController {
         return service.updateTrialWordAndSaveUserWord(trialWordDto);
     }
 
+    @GetMapping("/{id}/learned")
+    public TrialWordDto updateTrialWordAndSaveLearnedUserWord(@PathVariable ("id") Long id) {
+        return service.updateTrialWordAndSaveLearnedUserWord(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {

@@ -14,7 +14,7 @@ public interface WordInfraService {
 
     WordDto getByName(String name);
 
-    List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Integer countWord);
+    List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Long exclusionWordId, Integer countWord);
 
     List<String> removeWordsAlreadySave(List<String> words, List<WordDto> wordDtos);
 

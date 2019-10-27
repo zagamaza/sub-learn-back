@@ -111,6 +111,22 @@ public class TrialWordInfraServiceImpl implements TrialWordInfraService {
         return trialWords.stream().map(this::save).collect(Collectors.toList());
     }
 
+    @Override
+    public TrialWordDto updateTrialWordAndSaveLearnedUserWord(Long id) {
+        TrialWordDto trialWordDto = get(id);
+        trialWordDto.setPassed(true);
+        trialWordDto.setRight(true);
+        update(trialWordDto);
+        updateLearnedUserWord(trialWordDto);
+        trialInfraService.fillStatistic(trialWordDto.getTrialDto());
+        return trialWordDto;
+    }
+
+    private void updateLearnedUserWord(TrialWordDto trialWordDto) {
+        Long userId = repository.getUserIdById(trialWordDto.getId());
+        userWordInfraService.save(trialWordDto.getWordDto().getId(), userId);
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

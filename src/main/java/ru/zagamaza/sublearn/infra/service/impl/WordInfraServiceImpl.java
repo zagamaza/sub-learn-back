@@ -53,8 +53,8 @@ public class WordInfraServiceImpl implements WordInfraService {
     }
 
     @Override
-    public List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Integer countWord) {
-        List<Long> wordIds = repository.findRandomWordsByEpisodeId(episodeId, countWord);
+    public List<WordDto> getRandomWordsByEpisodeId(Long episodeId, Long exclusionWordId, Integer countWord) {
+        List<Long> wordIds = repository.findRandomWordsByEpisodeIdAndExcludeWord(episodeId, exclusionWordId, countWord);
         return wordIds.stream()
                       .map(this::get)
                       .collect(Collectors.toList());

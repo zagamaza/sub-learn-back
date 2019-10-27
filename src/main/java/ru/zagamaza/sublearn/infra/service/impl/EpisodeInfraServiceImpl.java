@@ -39,9 +39,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                                          .orElseThrow(() -> new NotFoundException(
                                                  getMessage("episode.not.found.exception", id)
                                          ));
-        EpisodeDto episodeDto = EpisodeDto.from(entity);
-        episodeDto.setLearnedPercent(repository.getLearnedPercent(entity.getId()));
-        return episodeDto;
+        return EpisodeDto.from(entity);
     }
 
     @Override
@@ -120,13 +118,17 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
         return repository.findAllByCollectionEntityId(collectionId, pageable)
                          .stream()
                          .map(EpisodeDto::from)
-                         .peek(dto -> dto.setLearnedPercent(repository.getLearnedPercent(dto.getId())))
                          .collect(Collectors.toList());
     }
 
     @Override
     public Integer getCountByCollectionId(Long collectionId) {
         return repository.countByCollectionEntityId(collectionId);
+    }
+
+    @Override
+    public Integer getStatistic(Long id, Long userId) {
+        return repository.getLearnedPercent(id, userId);
     }
 
     private String getMessage(String key, Object... args) {

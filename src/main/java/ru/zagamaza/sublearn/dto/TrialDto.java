@@ -39,6 +39,9 @@ public class TrialDto {
 
 
     public static TrialDto from(TrialEntity entity) {
+        if (entity == null){
+            return null;
+        }
         return new TrialDto(
                 entity.getId(),
                 entity.getName(),

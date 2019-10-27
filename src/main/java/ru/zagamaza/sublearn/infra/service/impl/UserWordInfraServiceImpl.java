@@ -63,6 +63,15 @@ public class UserWordInfraServiceImpl implements UserWordInfraService {
         return save(userWordDto);
     }
 
+    @Override
+    public UserWordDto save(Long wordId, Long userId) {
+        UserWordEntity entity = repository
+                .findByWordEntityIdAndUserEntityId(wordId, userId)
+                .orElse(UserWordEntity.from(new UserWordDto(userId, wordId)));
+        entity.setRate(10);
+        return save(UserWordDto.from(entity));
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

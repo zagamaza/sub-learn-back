@@ -41,12 +41,18 @@ public class TrialController {
     }
 
     @GetMapping("/condensed/users/{userId}")
-    public List<TrialCondensedDto> getLastConsedTrial(@PathVariable Long userId, Pageable pageable) {
-        return service.getLastConsedTrialByUserId(userId, pageable);
+    public List<TrialCondensedDto> getNotFinishConsedTrial(@PathVariable Long userId, Pageable pageable) {
+        return service.getNotFinishConsedTrialByUserId(userId, pageable);
     }
+
     @GetMapping("/condensed/users/{userId}/count")
-    public Integer getLastConsedTrial(@PathVariable Long userId) {
+    public Integer getCountNotFinishConsedTrial(@PathVariable Long userId) {
         return service.getCountTrialByUserId(userId);
+    }
+
+    @GetMapping("/users/{userId}/episodes/{episodeId}")
+    public TrialDto getLastNotFinishTrialByEpisodeIdAndUserId(@PathVariable Long userId, @PathVariable Long episodeId) {
+        return service.getLastNotFinishTrialByEpisodeIdAndUserId(userId, episodeId);
     }
 
     @GetMapping("/nextWord")

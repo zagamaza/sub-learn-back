@@ -16,20 +16,18 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
 
     Integer countByCollectionEntityId(Long collectionId);
 
-    @Query(value = "select (select count(1)\n" +
+    @Query(value = "select (select count(ewe.world_entities_id)\n" +
             "        from episodes e\n" +
             "                 join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
             "                 join words w on ewe.world_entities_id = w.id\n" +
-            "                 join collections c on e.collection_id = c.id\n" +
-            "                 join user_to_collection uc on c.id = uc.collection_id\n" +
-            "                 join user_word uw on w.id = uw.word_id and uw.user_id = uc.user_id\n" +
-            "        where e.id = :id\n" +
+            "                 join user_word uw on w.id = uw.word_id\n" +
+            "        where e.id = :id and uw.user_id = :userId\n" +
             "          and uw.rate > 5) * 100 / (select case when count(1) = 0 then null else count(1) end\n" +
             "                                    from episodes e\n" +
             "                                             join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
             "                                             join words w on ewe.world_entities_id = w.id\n" +
             "                                    where e.id = :id);", nativeQuery = true)
-    Integer getLearnedPercent(@Param("id") Long id);
+    Integer getLearnedPercent(@Param("id") Long id, @Param("userId") Long userId);
 
 }
 

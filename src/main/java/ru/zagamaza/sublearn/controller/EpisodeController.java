@@ -37,6 +37,10 @@ public class EpisodeController {
     public List<EpisodeDto> getAllByCollectionId(@PathVariable Long collectionId, Pageable pageable) {
         return service.getAllByCollectionId(collectionId, pageable);
     }
+    @GetMapping("{id}/users/{userId}")
+    public Integer getLearnedPercent(@PathVariable Long id, @PathVariable Long userId) {
+        return service.getStatistic(id, userId);
+    }
 
     @GetMapping("/collections/{collectionId}/count")
     public Integer getCountByCollectionId(@PathVariable Long collectionId) {
