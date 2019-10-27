@@ -32,4 +32,10 @@ public interface EpisodeInfraService {
 
     Integer getStatistic(Long id, Long userId);
 
+    List<Integer> getSeasonsByCollectionId(Long collectionId);
+
+    List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable);
+
+    Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season);
+
 }

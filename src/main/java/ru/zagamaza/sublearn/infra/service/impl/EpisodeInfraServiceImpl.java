@@ -131,6 +131,24 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
         return repository.getLearnedPercent(id, userId);
     }
 
+    @Override
+    public List<Integer> getSeasonsByCollectionId(Long collectionId) {
+        return repository.getSeasonsByCollectionId(collectionId);
+    }
+
+    @Override
+    public List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable) {
+        return repository.findAllBySeasonAndCollectionEntityId(season, collectionId, pageable).stream()
+                .map(EpisodeDto::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season) {
+        return repository.countBySeasonAndCollectionEntityId(season, collectionId);
+
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

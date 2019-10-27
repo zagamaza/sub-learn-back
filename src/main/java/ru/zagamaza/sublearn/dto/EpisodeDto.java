@@ -19,7 +19,7 @@ public class EpisodeDto {
 
     private Long id;
 
-    List<WordDto> words;
+    private List<WordDto> words;
 
     private CollectionDto collectionDto;
 
