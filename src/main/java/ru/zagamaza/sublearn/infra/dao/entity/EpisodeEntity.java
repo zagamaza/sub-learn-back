@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -31,8 +32,8 @@ public class EpisodeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<WordEntity> worldEntities;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<WordEntity> worldEntities;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id")
@@ -49,7 +50,7 @@ public class EpisodeEntity {
                         ? null
                         : dto.getWords().stream()
                              .map(WordEntity::from)
-                             .collect(Collectors.toList()),
+                             .collect(Collectors.toSet()),
                 CollectionEntity.builder().id(dto.getCollectionDto().getId()).build(),
                 dto.getSeason(),
                 dto.getEpisode()

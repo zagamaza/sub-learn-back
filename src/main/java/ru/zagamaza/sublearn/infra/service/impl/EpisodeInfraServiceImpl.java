@@ -19,6 +19,7 @@ import ru.zagamaza.sublearn.infra.service.EpisodeInfraService;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -39,7 +40,20 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                                          .orElseThrow(() -> new NotFoundException(
                                                  getMessage("episode.not.found.exception", id)
                                          ));
-        return EpisodeDto.from(entity);
+        EpisodeDto episodeDto = EpisodeDto.compressedFrom(entity);
+        episodeDto.setLearnedPercent(repository.getLearnedPercent(entity.getId()));
+        return episodeDto;
+    }
+
+    @Override
+    public EpisodeDto getWithWords(Long id) {
+        EpisodeEntity entity = repository.findByIdWithWords(id)
+                                         .orElseThrow(() -> new NotFoundException(
+                                                 getMessage("episode.not.found.exception", id)
+                                         ));
+        EpisodeDto episodeDto = EpisodeDto.from(entity);
+        episodeDto.setLearnedPercent(repository.getLearnedPercent(entity.getId()));
+        return episodeDto;
     }
 
     @Override
@@ -109,7 +123,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                 .filter(wordDto -> wordDto.getWord() != null && wordDto.getTranslation() != null)
                 .collect(Collectors.toList());
         wordDtos.addAll(words);
-        episodeDto.setWords(wordDtos);
+        episodeDto.setWords(new HashSet<>(wordDtos));
         return saveAfterTranslator(episodeDto);
     }
 

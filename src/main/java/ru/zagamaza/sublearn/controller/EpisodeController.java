@@ -33,6 +33,11 @@ public class EpisodeController {
         return service.get(id);
     }
 
+    @GetMapping("/{id}/words")
+    public EpisodeDto getWithWords(@PathVariable Long id) {
+        return service.getWithWords(id);
+    }
+
     @GetMapping("/collections/{collectionId}")
     public List<EpisodeDto> getAllByCollectionId(@PathVariable Long collectionId, Pageable pageable) {
         return service.getAllByCollectionId(collectionId, pageable);
