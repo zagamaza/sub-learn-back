@@ -68,7 +68,7 @@ public class TrialInfraServiceImpl implements TrialInfraService {
 
     @Override
     public TrialDto saveTrialAndTrialWords(TrialDto dto) {
-        TrialDto trialDto = save(dto);
+        TrialDto trialDto = TrialDto.from(repository.save(TrialEntity.from(dto)));
         trialDto.setTrialWords(trialWordInfraService.saveWordTrialsForTrial(trialDto));
         return trialDto;
     }
