@@ -45,6 +45,15 @@ public class TrialInfraServiceImpl implements TrialInfraService {
                                        .orElseThrow(() -> new NotFoundException(getMessage(
                                                "trial.not.found.exception", id
                                        )));
+        return TrialDto.compressedFrom(entity);
+    }
+
+    @Override
+    public TrialDto getWithWord(Long id) {
+        TrialEntity entity = repository.findById(id)
+                                       .orElseThrow(() -> new NotFoundException(getMessage(
+                                               "trial.not.found.exception", id
+                                       )));
         return TrialDto.from(entity);
     }
 
@@ -53,7 +62,7 @@ public class TrialInfraServiceImpl implements TrialInfraService {
         Page<TrialEntity> entities = repository.findAll(pageable);
         return entities
                 .stream()
-                .map(TrialDto::from)
+                .map(TrialDto::compressedFrom)
                 .collect(Collectors.toList());
     }
 
@@ -69,7 +78,7 @@ public class TrialInfraServiceImpl implements TrialInfraService {
     public TrialDto save(TrialDto dto) {
         TrialEntity entity;
         entity = repository.save(TrialEntity.from(dto));
-        return TrialDto.from(entity);
+        return TrialDto.compressedFrom(entity);
     }
 
     @Override
@@ -80,7 +89,7 @@ public class TrialInfraServiceImpl implements TrialInfraService {
 
     @Override
     public TranslateOptionDto getNextWord(Long trialId) {
-        TrialDto trialDto = get(trialId);
+        TrialDto trialDto = getWithWord(trialId);
         UserSettingDto userSettingDto = userSettingInfraService.getByTrialId(trialId);
         TrialWordDto trialWordDto = trialService.getTrialWordNotIsPassed(trialDto);
         trialWordDto.setTrialDto(trialDto);
@@ -95,12 +104,13 @@ public class TrialInfraServiceImpl implements TrialInfraService {
 
     @Override
     public List<TrialCondensedDto> getNotFinishConsedTrialByUserId(Long userId, Pageable pageable) {
-        PageRequest episode_id = PageRequest.of(
+        PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
                 Sort.by("episode_id")
         );
-        List<TrialDto> entities = repository.findNotFinishTrialIdsByUserId(userId, episode_id).stream()
+        List<TrialDto> entities = repository.findNotFinishTrialIdsByUserId(userId, pageRequest)
+                                            .stream()
                                             .map(this::get)
                                             .collect(Collectors.toList());
         List<TrialCondensedDto> list = new ArrayList<>();

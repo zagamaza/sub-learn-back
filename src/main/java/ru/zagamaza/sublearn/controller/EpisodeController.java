@@ -59,12 +59,21 @@ public class EpisodeController {
     }
 
     @GetMapping("/collections/{collectionId}/season")
-    public List<EpisodeDto> getByCollectionIdAndSeason(
+    public List<EpisodeDto> getAllByCollectionIdAndSeason(
             @PathVariable Long collectionId,
             @RequestParam Integer season,
             Pageable pageable
     ) {
         return service.getAllByCollectionIdAndSeason(collectionId, season, pageable);
+    }
+
+    @GetMapping("/collections/{collectionId}/season/series")
+    public EpisodeDto getByCollectionIdAndSeasonAndSeries(
+            @PathVariable Long collectionId,
+            @RequestParam Integer season,
+            @RequestParam Integer series
+    ) {
+        return service.getByCollectionIdAndSeasonAndSeries(collectionId, season, series);
     }
 
     @GetMapping("/collections/{collectionId}/season/count")

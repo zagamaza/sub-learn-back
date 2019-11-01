@@ -12,6 +12,8 @@ public interface TrialInfraService {
 
     TrialDto get(Long id);
 
+    TrialDto getWithWord(Long id);
+
     List<TrialDto> getAll(Pageable pageable);
 
     TrialDto saveTrialAndTrialWords(TrialDto dto);

@@ -40,4 +40,6 @@ public interface EpisodeInfraService {
 
     Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season);
 
+    EpisodeDto getByCollectionIdAndSeasonAndSeries(Long collectionId, Integer season, Integer series);
+
 }

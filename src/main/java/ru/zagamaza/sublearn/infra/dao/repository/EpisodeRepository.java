@@ -17,6 +17,8 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
 
     List<EpisodeEntity> findAllBySeasonAndCollectionEntityId(Integer season, Long collectionId, Pageable pageable);
 
+    EpisodeEntity findBySeasonAndEpisodeAndCollectionEntityId(Integer season, Integer episode, Long collectionId);
+
     Integer countBySeasonAndCollectionEntityId(Integer season, Long collectionId);
 
     Integer countByCollectionEntityId(Long collectionId);
@@ -24,7 +26,7 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
     @Query(value = "select e from EpisodeEntity e join fetch e.worldEntities where e.id = :id")
     Optional<EpisodeEntity> findByIdWithWords(@Param("id") Long id);
 
-    @Query(value = "select distinct e.season from episodes e where e.collection_id = :collectionId", nativeQuery = true)
+    @Query(value = "select distinct e.season from episodes e where e.collection_id = :collectionId order by season", nativeQuery = true)
     List<Integer> getSeasonsByCollectionId(@Param("collectionId") Long collectionId);
 
     @Query(value = "select (select count(ewe.world_entities_id)\n" +

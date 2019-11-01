@@ -40,9 +40,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                                          .orElseThrow(() -> new NotFoundException(
                                                  getMessage("episode.not.found.exception", id)
                                          ));
-        EpisodeDto episodeDto = EpisodeDto.compressedFrom(entity);
-        episodeDto.setLearnedPercent(repository.getLearnedPercent(entity.getId()));
-        return episodeDto;
+        return EpisodeDto.compressedFrom(entity);
     }
 
     @Override
@@ -51,9 +49,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                                          .orElseThrow(() -> new NotFoundException(
                                                  getMessage("episode.not.found.exception", id)
                                          ));
-        EpisodeDto episodeDto = EpisodeDto.from(entity);
-        episodeDto.setLearnedPercent(repository.getLearnedPercent(entity.getId()));
-        return episodeDto;
+        return EpisodeDto.from(entity);
     }
 
     @Override
@@ -131,7 +127,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     public List<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable) {
         return repository.findAllByCollectionEntityId(collectionId, pageable)
                          .stream()
-                         .map(EpisodeDto::from)
+                         .map(EpisodeDto::compressedFrom)
                          .collect(Collectors.toList());
     }
 
@@ -152,14 +148,26 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
 
     @Override
     public List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable) {
-        return repository.findAllBySeasonAndCollectionEntityId(season, collectionId, pageable).stream()
-                .map(EpisodeDto::from)
-                .collect(Collectors.toList());
+        return repository.findAllBySeasonAndCollectionEntityId(season, collectionId, pageable)
+                         .stream()
+                         .map(EpisodeDto::compressedFrom)
+                         .collect(Collectors.toList());
     }
 
     @Override
     public Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season) {
         return repository.countBySeasonAndCollectionEntityId(season, collectionId);
+
+    }
+
+    @Override
+    public EpisodeDto getByCollectionIdAndSeasonAndSeries(Long collectionId, Integer season, Integer series) {
+        EpisodeEntity episodeEntity = repository.findBySeasonAndEpisodeAndCollectionEntityId(
+                season,
+                series,
+                collectionId
+        );
+        return EpisodeDto.compressedFrom(episodeEntity);
 
     }
 

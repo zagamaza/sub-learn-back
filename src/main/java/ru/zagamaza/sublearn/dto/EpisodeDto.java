@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.infra.dao.entity.EpisodeEntity;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,9 @@ public class EpisodeDto {
     private Integer learnedPercent;
 
     public static EpisodeDto compressedFrom(EpisodeEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return EpisodeDto.builder()
                 .id(entity.getId())
                 .collectionDto(entity.getCollectionEntity() == null
