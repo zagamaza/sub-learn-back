@@ -33,10 +33,16 @@ public class EpisodeController {
         return service.get(id);
     }
 
+    @GetMapping("/{id}/words")
+    public EpisodeDto getWithWords(@PathVariable Long id) {
+        return service.getWithWords(id);
+    }
+
     @GetMapping("/collections/{collectionId}")
     public List<EpisodeDto> getAllByCollectionId(@PathVariable Long collectionId, Pageable pageable) {
         return service.getAllByCollectionId(collectionId, pageable);
     }
+
     @GetMapping("{id}/users/{userId}")
     public Integer getLearnedPercent(@PathVariable Long id, @PathVariable Long userId) {
         return service.getStatistic(id, userId);
@@ -45,6 +51,37 @@ public class EpisodeController {
     @GetMapping("/collections/{collectionId}/count")
     public Integer getCountByCollectionId(@PathVariable Long collectionId) {
         return service.getCountByCollectionId(collectionId);
+    }
+
+    @GetMapping("/collections/{collectionId}/seasons")
+    public List<Integer> getSeasonsByCollectionId(@PathVariable Long collectionId) {
+        return service.getSeasonsByCollectionId(collectionId);
+    }
+
+    @GetMapping("/collections/{collectionId}/season")
+    public List<EpisodeDto> getAllByCollectionIdAndSeason(
+            @PathVariable Long collectionId,
+            @RequestParam Integer season,
+            Pageable pageable
+    ) {
+        return service.getAllByCollectionIdAndSeason(collectionId, season, pageable);
+    }
+
+    @GetMapping("/collections/{collectionId}/season/series")
+    public EpisodeDto getByCollectionIdAndSeasonAndSeries(
+            @PathVariable Long collectionId,
+            @RequestParam Integer season,
+            @RequestParam Integer series
+    ) {
+        return service.getByCollectionIdAndSeasonAndSeries(collectionId, season, series);
+    }
+
+    @GetMapping("/collections/{collectionId}/season/count")
+    public Integer getCountByCollectionIdAndSeason(
+            @PathVariable Long collectionId,
+            @RequestParam Integer season
+    ) {
+        return service.getCountByCollectionIdAndSeason(collectionId, season);
     }
 
     @PostMapping

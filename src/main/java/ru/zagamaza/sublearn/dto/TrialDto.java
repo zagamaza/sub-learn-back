@@ -63,9 +63,9 @@ public class TrialDto {
         return new TrialDto(
                 entity.getId(),
                 entity.getName(),
+                EpisodeDto.compressedFrom(entity.getEpisodeEntity()),
                 null,
-                null,
-                null,
+                UserDto.from(entity.getUserEntity()),
                 entity.getPercent(),
                 entity.getCorrectPercent(),
                 entity.getCreated()

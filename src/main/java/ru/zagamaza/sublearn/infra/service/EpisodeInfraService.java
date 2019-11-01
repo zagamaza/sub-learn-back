@@ -12,6 +12,8 @@ public interface EpisodeInfraService {
 
     EpisodeDto get(Long id);
 
+    EpisodeDto getWithWords(Long id);
+
     List<EpisodeDto> getAll(Pageable pageable);
 
     @Transactional
@@ -31,5 +33,13 @@ public interface EpisodeInfraService {
     Integer getCountByCollectionId(Long collectionId);
 
     Integer getStatistic(Long id, Long userId);
+
+    List<Integer> getSeasonsByCollectionId(Long collectionId);
+
+    List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable);
+
+    Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season);
+
+    EpisodeDto getByCollectionIdAndSeasonAndSeries(Long collectionId, Integer season, Integer series);
 
 }

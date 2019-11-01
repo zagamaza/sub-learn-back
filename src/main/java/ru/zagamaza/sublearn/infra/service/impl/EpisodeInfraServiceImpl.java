@@ -19,6 +19,7 @@ import ru.zagamaza.sublearn.infra.service.EpisodeInfraService;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -36,6 +37,15 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     @Override
     public EpisodeDto get(Long id) {
         EpisodeEntity entity = repository.findById(id)
+                                         .orElseThrow(() -> new NotFoundException(
+                                                 getMessage("episode.not.found.exception", id)
+                                         ));
+        return EpisodeDto.compressedFrom(entity);
+    }
+
+    @Override
+    public EpisodeDto getWithWords(Long id) {
+        EpisodeEntity entity = repository.findByIdWithWords(id)
                                          .orElseThrow(() -> new NotFoundException(
                                                  getMessage("episode.not.found.exception", id)
                                          ));
@@ -109,7 +119,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
                 .filter(wordDto -> wordDto.getWord() != null && wordDto.getTranslation() != null)
                 .collect(Collectors.toList());
         wordDtos.addAll(words);
-        episodeDto.setWords(wordDtos);
+        episodeDto.setWords(new HashSet<>(wordDtos));
         return saveAfterTranslator(episodeDto);
     }
 
@@ -117,7 +127,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     public List<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable) {
         return repository.findAllByCollectionEntityId(collectionId, pageable)
                          .stream()
-                         .map(EpisodeDto::from)
+                         .map(EpisodeDto::compressedFrom)
                          .collect(Collectors.toList());
     }
 
@@ -129,6 +139,36 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     @Override
     public Integer getStatistic(Long id, Long userId) {
         return repository.getLearnedPercent(id, userId);
+    }
+
+    @Override
+    public List<Integer> getSeasonsByCollectionId(Long collectionId) {
+        return repository.getSeasonsByCollectionId(collectionId);
+    }
+
+    @Override
+    public List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable) {
+        return repository.findAllBySeasonAndCollectionEntityId(season, collectionId, pageable)
+                         .stream()
+                         .map(EpisodeDto::compressedFrom)
+                         .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season) {
+        return repository.countBySeasonAndCollectionEntityId(season, collectionId);
+
+    }
+
+    @Override
+    public EpisodeDto getByCollectionIdAndSeasonAndSeries(Long collectionId, Integer season, Integer series) {
+        EpisodeEntity episodeEntity = repository.findBySeasonAndEpisodeAndCollectionEntityId(
+                season,
+                series,
+                collectionId
+        );
+        return EpisodeDto.compressedFrom(episodeEntity);
+
     }
 
     private String getMessage(String key, Object... args) {
