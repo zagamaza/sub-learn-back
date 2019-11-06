@@ -3,6 +3,7 @@ package ru.zagamaza.sublearn.infra.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,11 +73,15 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     }
 
     @Override
-    public List<CollectionCondensedDto> getCondensedCollectionByUserId(Long userId, Pageable pageable) {
-        return repository.findAllByUserEntityId(userId, pageable)
-                         .stream()
-                         .map(CollectionCondensedDto::from)
-                         .collect(Collectors.toList());
+    public Page<CollectionCondensedDto> getCondensedCollectionByUserId(Long userId, Pageable pageable) {
+        return new PageImpl<>(
+                repository.findAllByUserEntityId(userId, pageable)
+                          .stream()
+                          .map(CollectionCondensedDto::from)
+                          .collect(Collectors.toList()),
+                pageable,
+                repository.countByUserEntityId(userId)
+        );
     }
 
     @Override
@@ -110,11 +115,6 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     @Transactional
     public void deleteLink(Long id, Long userId) {
         repository.deleteLinkUserToCollection(id, userId);
-    }
-
-    @Override
-    public Integer getCountCollectionByUserId(Long userId) {
-        return repository.countByUserEntityId(userId);
     }
 
     private String getMessage(String key, Object... args) {

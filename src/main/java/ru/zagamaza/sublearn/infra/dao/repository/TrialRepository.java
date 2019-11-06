@@ -1,5 +1,6 @@
 package ru.zagamaza.sublearn.infra.dao.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.zagamaza.sublearn.infra.dao.entity.TrialEntity;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Repository
@@ -21,12 +23,6 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
            nativeQuery = true)
     Long findFirstByUserEntityIdAndEpisodeEntityId(@Param("userId") Long userId, @Param("episodeId") Long episodeId);
 
-    @Query(value = "select count(distinct t.episode_id) from trials t\n" +
-            "   where t.user_id = :userId\n" +
-            "   and exists(select * from trial_word tw where tw.is_passed is not true and tw.trial_id = t.id)",
-           nativeQuery = true)
-    Integer countNotFinishTrialByUserId(@Param("userId") Long userId);
-
     @Query(value = "select max(t.id) from trials t\n" +
             "where t.user_id = :userId\n" +
             "  and exists(select * from trial_word tw where tw.is_passed is not true and tw.trial_id = t.id)" +
@@ -35,7 +31,7 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
                    "   where t.user_id = :userId\n" +
                    "   and exists(select * from trial_word tw where tw.is_passed is not true and tw.trial_id = t.id)",
            nativeQuery = true)
-    List<Long> findNotFinishTrialIdsByUserId(@Param("userId") Long userId, Pageable pageable);
+    Page<BigInteger> findNotFinishTrialIdsByUserId(@Param("userId") Long userId, Pageable pageable);
 
     @Query(value = "select (select count(1) from trial_word o where o.trial_id = :id and o.is_right is true) * 100 /\n" +
             "       (case when (select count(1) from trial_word o where o.trial_id = :id)!= 0\n" +

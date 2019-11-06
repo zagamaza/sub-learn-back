@@ -1,6 +1,7 @@
 package ru.zagamaza.sublearn.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,13 +35,8 @@ public class CollectionController {
     }
 
     @GetMapping("/condensed/users/{userId}")
-    public List<CollectionCondensedDto> getCollectionByUserId(@PathVariable Long userId, Pageable pageable) {
+    public Page<CollectionCondensedDto> getCollectionByUserId(@PathVariable Long userId, Pageable pageable) {
         return service.getCondensedCollectionByUserId(userId, pageable);
-    }
-
-    @GetMapping("/condensed/users/{userId}/count")
-    public Integer getCountCollectionByUserId(@PathVariable Long userId) {
-        return service.getCountCollectionByUserId(userId);
     }
 
     @GetMapping

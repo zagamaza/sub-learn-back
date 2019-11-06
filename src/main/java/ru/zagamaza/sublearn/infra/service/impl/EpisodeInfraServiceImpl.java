@@ -3,6 +3,7 @@ package ru.zagamaza.sublearn.infra.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,17 +125,17 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     }
 
     @Override
-    public List<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable) {
-        return repository.findAllByCollectionEntityId(collectionId, pageable)
-                         .stream()
-                         .map(EpisodeDto::compressedFrom)
-                         .collect(Collectors.toList());
+    public Page<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable) {
+        Page<EpisodeEntity> episodeEntities = repository.findAllByCollectionEntityId(collectionId, pageable);
+        return new PageImpl<>(
+                episodeEntities.stream()
+                               .map(EpisodeDto::compressedFrom)
+                               .collect(Collectors.toList()),
+                pageable,
+                episodeEntities.getTotalElements()
+        );
     }
 
-    @Override
-    public Integer getCountByCollectionId(Long collectionId) {
-        return repository.countByCollectionEntityId(collectionId);
-    }
 
     @Override
     public Integer getStatistic(Long id, Long userId) {
@@ -147,17 +148,16 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     }
 
     @Override
-    public List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable) {
-        return repository.findAllBySeasonAndCollectionEntityId(season, collectionId, pageable)
-                         .stream()
-                         .map(EpisodeDto::compressedFrom)
-                         .collect(Collectors.toList());
-    }
-
-    @Override
-    public Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season) {
-        return repository.countBySeasonAndCollectionEntityId(season, collectionId);
-
+    public Page<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable) {
+        Page<EpisodeEntity> episodeEntities = repository.findAllBySeasonAndCollectionEntityId(
+                season,
+                collectionId,
+                pageable
+        );
+        return new PageImpl<>(episodeEntities
+                                      .stream()
+                                      .map(EpisodeDto::compressedFrom)
+                                      .collect(Collectors.toList()), pageable, episodeEntities.getTotalElements());
     }
 
     @Override

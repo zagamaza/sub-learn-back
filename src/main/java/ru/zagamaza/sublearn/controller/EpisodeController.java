@@ -1,6 +1,7 @@
 package ru.zagamaza.sublearn.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +40,7 @@ public class EpisodeController {
     }
 
     @GetMapping("/collections/{collectionId}")
-    public List<EpisodeDto> getAllByCollectionId(@PathVariable Long collectionId, Pageable pageable) {
+    public Page<EpisodeDto> getAllByCollectionId(@PathVariable Long collectionId, Pageable pageable) {
         return service.getAllByCollectionId(collectionId, pageable);
     }
 
@@ -48,18 +49,13 @@ public class EpisodeController {
         return service.getStatistic(id, userId);
     }
 
-    @GetMapping("/collections/{collectionId}/count")
-    public Integer getCountByCollectionId(@PathVariable Long collectionId) {
-        return service.getCountByCollectionId(collectionId);
-    }
-
     @GetMapping("/collections/{collectionId}/seasons")
     public List<Integer> getSeasonsByCollectionId(@PathVariable Long collectionId) {
         return service.getSeasonsByCollectionId(collectionId);
     }
 
     @GetMapping("/collections/{collectionId}/season")
-    public List<EpisodeDto> getAllByCollectionIdAndSeason(
+    public Page<EpisodeDto> getAllByCollectionIdAndSeason(
             @PathVariable Long collectionId,
             @RequestParam Integer season,
             Pageable pageable
@@ -76,13 +72,6 @@ public class EpisodeController {
         return service.getByCollectionIdAndSeasonAndSeries(collectionId, season, series);
     }
 
-    @GetMapping("/collections/{collectionId}/season/count")
-    public Integer getCountByCollectionIdAndSeason(
-            @PathVariable Long collectionId,
-            @RequestParam Integer season
-    ) {
-        return service.getCountByCollectionIdAndSeason(collectionId, season);
-    }
 
     @PostMapping
     public EpisodeDto create(@Valid @RequestBody EpisodeRequest episodeRequest) {

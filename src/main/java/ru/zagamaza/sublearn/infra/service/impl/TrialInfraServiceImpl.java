@@ -3,6 +3,7 @@ package ru.zagamaza.sublearn.infra.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,7 +24,7 @@ import ru.zagamaza.sublearn.infra.service.TrialWordInfraService;
 import ru.zagamaza.sublearn.infra.service.UserSettingInfraService;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -58,12 +59,12 @@ public class TrialInfraServiceImpl implements TrialInfraService {
     }
 
     @Override
-    public List<TrialDto> getAll(Pageable pageable) {
+    public Page<TrialDto> getAll(Pageable pageable) {
         Page<TrialEntity> entities = repository.findAll(pageable);
-        return entities
-                .stream()
-                .map(TrialDto::compressedFrom)
-                .collect(Collectors.toList());
+        return new PageImpl<>(entities
+                                      .stream()
+                                      .map(TrialDto::compressedFrom)
+                                      .collect(Collectors.toList()), pageable, entities.getTotalElements());
     }
 
     @Override
@@ -103,24 +104,25 @@ public class TrialInfraServiceImpl implements TrialInfraService {
     }
 
     @Override
-    public List<TrialCondensedDto> getNotFinishConsedTrialByUserId(Long userId, Pageable pageable) {
+    public Page<TrialCondensedDto> getNotFinishConsedTrialByUserId(Long userId, Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
                 Sort.by("episode_id")
         );
-        List<TrialDto> entities = repository.findNotFinishTrialIdsByUserId(userId, pageRequest)
-                                            .stream()
-                                            .map(this::get)
-                                            .collect(Collectors.toList());
-        List<TrialCondensedDto> list = new ArrayList<>();
-        entities.stream()
-                .map(TrialCondensedDto::from)
-                .forEach(trialCondensedDto -> {
-                    trialCondensedDto.setCollectionName(repository.getTrialName(trialCondensedDto.getId()));
-                    list.add(trialCondensedDto);
-                });
-        return list;
+        Page<BigInteger> trialIds = repository.findNotFinishTrialIdsByUserId(userId, pageRequest);
+        return new PageImpl<>(trialIds.stream()
+                                      .map(this::getTrialCondensedDto)
+                                      .collect(Collectors.toList()), pageable, trialIds.getTotalElements());
+    }
+
+    private TrialCondensedDto getTrialCondensedDto(BigInteger id) {
+        TrialEntity entity = repository.findById(id.longValue())
+                                       .orElseThrow(() -> new NotFoundException(getMessage(
+                                               "trial.not.found.exception", id
+                                       )));
+        return TrialCondensedDto.from(entity);
+
     }
 
     // TODO: 08.09.2019 Костыль, который не знаю пока как решить/
@@ -128,11 +130,6 @@ public class TrialInfraServiceImpl implements TrialInfraService {
     public void fillStatistic(TrialDto trialDto) {
         trialDto.setCorrectPercent(repository.getCorrectPercent(trialDto.getId()));
         trialDto.setPercent(repository.getPercent(trialDto.getId()));
-    }
-
-    @Override
-    public Integer getCountTrialByUserId(Long userId) {
-        return repository.countNotFinishTrialByUserId(userId);
     }
 
     @Override
