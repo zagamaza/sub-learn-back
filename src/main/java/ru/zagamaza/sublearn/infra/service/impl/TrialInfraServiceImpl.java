@@ -113,6 +113,7 @@ public class TrialInfraServiceImpl implements TrialInfraService {
         Page<BigInteger> trialIds = repository.findNotFinishTrialIdsByUserId(userId, pageRequest);
         return new PageImpl<>(trialIds.stream()
                                       .map(this::getTrialCondensedDto)
+                                      .peek(t -> t.setCollectionName(repository.getTrialName(t.getId())))
                                       .collect(Collectors.toList()), pageable, trialIds.getTotalElements());
     }
 
