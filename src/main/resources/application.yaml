@@ -27,3 +27,6 @@ default:
 
 translator:
   url: http://ms-sublearn-translator:8080/api/translator
+
+project:
+  version: @project.version@

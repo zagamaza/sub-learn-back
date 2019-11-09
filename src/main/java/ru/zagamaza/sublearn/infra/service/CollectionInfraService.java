@@ -1,5 +1,6 @@
 package ru.zagamaza.sublearn.infra.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.zagamaza.sublearn.dto.CollectionCondensedDto;
 import ru.zagamaza.sublearn.dto.CollectionDto;
@@ -20,7 +21,7 @@ public interface CollectionInfraService {
 
     void removeById(long id);
 
-    List<CollectionCondensedDto> getCondensedCollectionByUserId(Long userId, Pageable pageable);
+    Page<CollectionCondensedDto> getCondensedCollectionByUserId(Long userId, Pageable pageable);
 
     CollectionDto updateIsSerial(Long id, Boolean isSerial);
 
@@ -29,7 +30,5 @@ public interface CollectionInfraService {
     CollectionDto copyCollectionToUser(Long id, Long userId);
 
     void deleteLink(Long id, Long userId);
-
-    Integer getCountCollectionByUserId(Long userId);
 
 }

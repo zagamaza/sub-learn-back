@@ -1,5 +1,6 @@
 package ru.zagamaza.sublearn.infra.dao.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,15 +14,11 @@ import java.util.Optional;
 @Repository
 public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
 
-    List<EpisodeEntity> findAllByCollectionEntityId(Long collectionId, Pageable pageable);
+    Page<EpisodeEntity> findAllByCollectionEntityId(Long collectionId, Pageable pageable);
 
-    List<EpisodeEntity> findAllBySeasonAndCollectionEntityId(Integer season, Long collectionId, Pageable pageable);
+    Page<EpisodeEntity> findAllBySeasonAndCollectionEntityId(Integer season, Long collectionId, Pageable pageable);
 
     EpisodeEntity findBySeasonAndEpisodeAndCollectionEntityId(Integer season, Integer episode, Long collectionId);
-
-    Integer countBySeasonAndCollectionEntityId(Integer season, Long collectionId);
-
-    Integer countByCollectionEntityId(Long collectionId);
 
     @Query(value = "select e from EpisodeEntity e join fetch e.worldEntities where e.id = :id")
     Optional<EpisodeEntity> findByIdWithWords(@Param("id") Long id);

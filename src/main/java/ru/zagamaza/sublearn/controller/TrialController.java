@@ -2,6 +2,7 @@ package ru.zagamaza.sublearn.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +22,6 @@ import ru.zagamaza.sublearn.dto.TrialRequest;
 import ru.zagamaza.sublearn.infra.service.TrialInfraService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/trials")
@@ -36,18 +36,13 @@ public class TrialController {
     }
 
     @GetMapping
-    public List<TrialDto> getAll(Pageable pageable) {
+    public Page<TrialDto> getAll(Pageable pageable) {
         return service.getAll(pageable);
     }
 
     @GetMapping("/condensed/users/{userId}")
-    public List<TrialCondensedDto> getNotFinishConsedTrial(@PathVariable Long userId, Pageable pageable) {
+    public Page<TrialCondensedDto> getNotFinishConsedTrial(@PathVariable Long userId, Pageable pageable) {
         return service.getNotFinishConsedTrialByUserId(userId, pageable);
-    }
-
-    @GetMapping("/condensed/users/{userId}/count")
-    public Integer getCountNotFinishConsedTrial(@PathVariable Long userId) {
-        return service.getCountTrialByUserId(userId);
     }
 
     @GetMapping("/users/{userId}/episodes/{episodeId}")

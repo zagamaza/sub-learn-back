@@ -1,5 +1,6 @@
 package ru.zagamaza.sublearn.configs;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,9 @@ import java.util.Collections;
 @Configuration
 @EnableSwagger2
 public class AppConfig {
+
+    @Value("${project.version}")
+    String projectVersion;
 
     @Bean
     public MessageSource messageSource() {
@@ -40,7 +44,7 @@ public class AppConfig {
         return new ApiInfo(
                 "REST API SUB-LEARN-BACK",
                 "REST API for Sub-Learn",
-                "0.2.12",
+                projectVersion,
                 "Terms of service",
                 new Contact("Almaz Nurmukhametov", null, "almazic91@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList()

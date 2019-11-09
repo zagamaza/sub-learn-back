@@ -1,6 +1,7 @@
 package ru.zagamaza.sublearn.infra.service;
 
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,17 +29,13 @@ public interface EpisodeInfraService {
 
     EpisodeDto parseAndSave(Long id, MultipartFile file);
 
-    List<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable);
-
-    Integer getCountByCollectionId(Long collectionId);
+    Page<EpisodeDto> getAllByCollectionId(Long collectionId, Pageable pageable);
 
     Integer getStatistic(Long id, Long userId);
 
     List<Integer> getSeasonsByCollectionId(Long collectionId);
 
-    List<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable);
-
-    Integer getCountByCollectionIdAndSeason(Long collectionId, Integer season);
+    Page<EpisodeDto> getAllByCollectionIdAndSeason(Long collectionId, Integer season, Pageable pageable);
 
     EpisodeDto getByCollectionIdAndSeasonAndSeries(Long collectionId, Integer season, Integer series);
 
