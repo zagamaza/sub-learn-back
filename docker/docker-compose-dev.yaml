@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  sublearn-db:
+    container_name: sublearn-db
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passw0rd
+      POSTGRES_DB: sublearndb
+    ports:
+      - 15432:5432
