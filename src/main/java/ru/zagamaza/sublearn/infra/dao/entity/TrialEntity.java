@@ -50,23 +50,7 @@ public class TrialEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
-    @Formula("(select count(1) from trial_word tw\n" +
-                     "        where tw.trial_id = id and tw.is_passed is true) *  100/\n" +
-                     "       (case when (select count(1) from trial_word tw\n" +
-                     "                   where tw.trial_id = id)!=0\n" +
-                     "             then (select count(1) from trial_word tw\n" +
-                     "                   where tw.trial_id = id) else 1 end)")
-    private Integer percent;
-
-    @Formula(
-            "(select count(1) from trial_word o where o.trial_id = id and o.is_right is true) * 100 /\n" +
-                    "       (case when (select count(1) from trial_word o where o.trial_id = id)!= 0\n" +
-                    "             then (select count(1) from trial_word o where o.trial_id = id)\n" +
-                    "             else 1 end )")
-    private Integer correctPercent;
-
     private LocalDateTime created;
-
 
     public static TrialEntity from(TrialDto dto) {
         return new TrialEntity(
@@ -79,8 +63,6 @@ public class TrialEntity {
                              .map(TrialWordEntity::from)
                              .collect(Collectors.toList()),
                 UserEntity.builder().id(dto.getUserDto().getId()).build(),
-                dto.getPercent(),
-                dto.getPercent(),
                 dto.getCreated()
         );
 

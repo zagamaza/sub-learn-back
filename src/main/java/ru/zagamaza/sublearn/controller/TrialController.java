@@ -22,6 +22,7 @@ import ru.zagamaza.sublearn.dto.TrialRequest;
 import ru.zagamaza.sublearn.infra.service.TrialInfraService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/trials")
@@ -55,6 +56,10 @@ public class TrialController {
         return service.getNextWord(trialId);
     }
 
+    @GetMapping("/{trialId}/word_status")
+    public List<Boolean> getTrialWordStatusByTrialId(@PathVariable Long trialId) {
+        return service.getTrialWordStatusByTrialId(trialId);
+    }
 
     @ApiOperation(value = "Operation for save Trial and TrialWord with unused words from Episode")
     @PostMapping("/trial_word")

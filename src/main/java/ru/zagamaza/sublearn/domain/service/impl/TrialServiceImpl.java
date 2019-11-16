@@ -27,8 +27,6 @@ public class TrialServiceImpl implements TrialService {
         translateOptionDto.setTrialCondensedDto(TrialCondensedDto.from(trialWordDto));
         translateOptionDto.setTranslatable(trialWordDto.getWordDto());
         translateOptionDto.setTrialWordId(trialWordDto.getId());
-        translateOptionDto.setPresent(trialWordDto.getTrialDto().getPercent());
-        translateOptionDto.setCorrectPercent(trialWordDto.getTrialDto().getCorrectPercent());
         translateOptionDto.setTranslations(randomWords);
         translateOptionDto.setLastWord(trialWordDto.isLastWord());
         return translateOptionDto;
