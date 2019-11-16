@@ -6,6 +6,8 @@ import ru.zagamaza.sublearn.dto.TranslateOptionDto;
 import ru.zagamaza.sublearn.dto.TrialCondensedDto;
 import ru.zagamaza.sublearn.dto.TrialDto;
 
+import java.util.List;
+
 public interface TrialInfraService {
 
     TrialDto get(Long id);
@@ -24,7 +26,7 @@ public interface TrialInfraService {
 
     Page<TrialCondensedDto> getNotFinishConsedTrialByUserId(Long userId, Pageable pageable);
 
-    void fillStatistic(TrialDto trialDto);
+    List<Boolean> getTrialWordStatusByTrialId(Long trialId);
 
     TrialDto getLastNotFinishTrialByEpisodeIdAndUserId(Long userId, Long episodeId);
 

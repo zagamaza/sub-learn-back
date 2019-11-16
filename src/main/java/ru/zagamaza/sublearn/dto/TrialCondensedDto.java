@@ -15,8 +15,6 @@ public class TrialCondensedDto {
     private Long id;
     private Long collectionId;
     private String collectionName;
-    private Integer percent;
-    private Integer correctPercent;
     private LocalDateTime created;
 
 
@@ -25,8 +23,6 @@ public class TrialCondensedDto {
                 entity.getId(),
                 entity.getEpisodeEntity().getId(),
                 entity.getName(),
-                entity.getPercent(),
-                entity.getCorrectPercent(),
                 entity.getCreated()
         );
     }
@@ -36,8 +32,6 @@ public class TrialCondensedDto {
                 dto.getId(),
                 dto.getEpisodeDto().getId(),
                 dto.getName(),
-                dto.getPercent(),
-                dto.getCorrectPercent(),
                 dto.getCreated()
         );
     }
@@ -48,8 +42,6 @@ public class TrialCondensedDto {
                 trialDto.getId(),
                 trialDto.getEpisodeDto().getId(),
                 trialDto.getEpisodeDto().getCollectionDto().getName(),
-                trialDto.getPercent(),
-                trialDto.getCorrectPercent(),
                 trialDto.getCreated()
         );
     }

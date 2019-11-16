@@ -15,8 +15,6 @@ public class TranslateOptionDto {
     private WordDto translatable;
     private List<WordDto> translations;
     private Long trialWordId;
-    private Integer present;
-    private Integer correctPercent;
     private boolean isLastWord;
 
     public static TranslateOptionDto from(TrialDto trialDto) {
@@ -26,8 +24,6 @@ public class TranslateOptionDto {
                 null,
                 null,
                 null,
-                trialDto.getPercent(),
-                trialDto.getCorrectPercent(),
                 false
         );
     }
