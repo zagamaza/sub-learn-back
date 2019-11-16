@@ -117,6 +117,11 @@ public class TrialInfraServiceImpl implements TrialInfraService {
                                       .collect(Collectors.toList()), pageable, trialIds.getTotalElements());
     }
 
+    @Override
+    public List<Boolean> getTrialWordStatusByTrialId(Long trialId) {
+        return repository.getTrialWordStatus(trialId);
+    }
+
     private TrialCondensedDto getTrialCondensedDto(BigInteger id) {
         TrialEntity entity = repository.findById(id.longValue())
                                        .orElseThrow(() -> new NotFoundException(getMessage(
@@ -124,13 +129,6 @@ public class TrialInfraServiceImpl implements TrialInfraService {
                                        )));
         return TrialCondensedDto.from(entity);
 
-    }
-
-    // TODO: 08.09.2019 Костыль, который не знаю пока как решить/
-    @Override
-    public void fillStatistic(TrialDto trialDto) {
-        trialDto.setCorrectPercent(repository.getCorrectPercent(trialDto.getId()));
-        trialDto.setPercent(repository.getPercent(trialDto.getId()));
     }
 
     @Override

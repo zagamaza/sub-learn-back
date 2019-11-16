@@ -48,7 +48,7 @@ public class TrialWordDto {
                 trialWordRequest.isRight(),
                 trialWordRequest.isPassed(),
                 false,
-                trialWordRequest.getCreated()
+                LocalDateTime.now()
         );
     }
 

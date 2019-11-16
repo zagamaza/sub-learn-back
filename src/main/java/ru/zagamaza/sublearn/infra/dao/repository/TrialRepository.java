@@ -53,5 +53,15 @@ public interface TrialRepository extends JpaRepository<TrialEntity, Long> {
             "                   where tw.trial_id = :id) else 1 end)"), nativeQuery = true)
     Integer getPercent(@Param("id") Long id);
 
+    @Query(value = "select case " +
+            "           when tw.is_passed is false then null " +
+            "           else " +
+            "               tw.is_right " +
+            "           end " +
+            "from trial_word tw " +
+            "join trials t on tw.trial_id = t.id " +
+            "where t.id = :id order by tw.is_passed is false, tw.created", nativeQuery = true)
+    List<Boolean> getTrialWordStatus(@Param("id") Long id);
+
 }
 

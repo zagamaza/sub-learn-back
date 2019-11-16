@@ -79,7 +79,6 @@ public class TrialWordInfraServiceImpl implements TrialWordInfraService {
     public TrialWordDto updateTrialWordAndSaveUserWord(TrialWordDto dto) {
         TrialWordDto trialWordDto = update(dto);
         updateUserWord(trialWordDto);
-        trialInfraService.fillStatistic(trialWordDto.getTrialDto());
         return trialWordDto;
     }
 
@@ -118,7 +117,6 @@ public class TrialWordInfraServiceImpl implements TrialWordInfraService {
         trialWordDto.setRight(true);
         update(trialWordDto);
         updateLearnedUserWord(trialWordDto);
-        trialInfraService.fillStatistic(trialWordDto.getTrialDto());
         return trialWordDto;
     }
 

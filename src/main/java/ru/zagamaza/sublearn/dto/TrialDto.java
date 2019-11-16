@@ -27,10 +27,6 @@ public class TrialDto {
 
     private UserDto userDto;
 
-    private Integer percent;
-
-    private Integer correctPercent;
-
     private LocalDateTime created;
 
     public TrialDto(Long trialId) {
@@ -52,8 +48,6 @@ public class TrialDto {
                                 .map(TrialWordDto::from)
                                 .collect(Collectors.toList()),
                 UserDto.from(entity.getUserEntity()),
-                entity.getPercent(),
-                entity.getCorrectPercent(),
                 entity.getCreated()
         );
 
@@ -66,8 +60,6 @@ public class TrialDto {
                 EpisodeDto.compressedFrom(entity.getEpisodeEntity()),
                 null,
                 UserDto.from(entity.getUserEntity()),
-                entity.getPercent(),
-                entity.getCorrectPercent(),
                 entity.getCreated()
         );
     }
@@ -79,8 +71,6 @@ public class TrialDto {
                 EpisodeDto.builder().id(trialRequest.getEpisodeId()).build(),
                 null,
                 UserDto.builder().id(trialRequest.getUserId()).build(),
-                null,
-                null,
                 trialRequest.getCreated()
         );
 
