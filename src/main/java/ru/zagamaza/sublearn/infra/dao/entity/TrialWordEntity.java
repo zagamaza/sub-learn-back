@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -24,7 +25,11 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trial_word")
+@Table(name = "trial_word", indexes = {
+        @Index(name = "trial_word_trial_id_ix", columnList = "trial_id"),
+        @Index(name = "trial_word_word_id_ix", columnList = "word_id")
+})
+
 public class TrialWordEntity {
 
     @Id
