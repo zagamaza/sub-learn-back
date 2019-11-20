@@ -50,7 +50,7 @@ public class WordEntity {
                         ? null
                         : wordDto.getTranslation()
                                  .stream()
-                                 .map(TranslationEntity::fom)
+                                 .map(TranslationEntity::from)
                                  .collect(Collectors.toList()),
                 wordDto.getLang(),
                 LocalDateTime.now()

@@ -12,11 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "episodes")
+@Table(name = "episodes", indexes = @Index(name = "episodes_collection_id_ix", columnList = "collection_id"))
 public class EpisodeEntity {
 
     @Id
@@ -33,6 +34,14 @@ public class EpisodeEntity {
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "episodes_world_entities",
+               joinColumns = @JoinColumn(name = "episode_entity_id"),
+               inverseJoinColumns = @JoinColumn(name = "world_entities_id"),
+               indexes = {
+                       @Index(name = "episode_entity_id_ix", columnList = "episode_entity_id"),
+                       @Index(name = "world_entities_id_ix", columnList = "world_entities_id")
+               }
+    )
     private Set<WordEntity> worldEntities;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})

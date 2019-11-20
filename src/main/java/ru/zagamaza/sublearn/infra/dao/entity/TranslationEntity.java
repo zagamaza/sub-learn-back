@@ -7,15 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.dto.TranslationDto;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -24,7 +21,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "translations")
+@Table(name = "translations", indexes = @Index(name = "trials_word_id_ix", columnList = "word_id"))
 public class TranslationEntity {
 
     @Id
@@ -36,7 +33,7 @@ public class TranslationEntity {
     @ElementCollection
     private List<String> translate;
 
-    public static TranslationEntity fom(TranslationDto translationDto) {
+    public static TranslationEntity from(TranslationDto translationDto) {
         return new TranslationEntity(
                 translationDto.getId(),
                 translationDto.getPartSpeech(),

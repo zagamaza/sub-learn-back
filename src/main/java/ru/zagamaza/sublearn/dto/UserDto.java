@@ -41,7 +41,7 @@ public class UserDto {
                 entity.getEmail(),
                 entity.getCreated(),
                 entity.getUserSettingEntity() == null
-                        ? new UserSettingDto(null, entity.getId(), 20, 4, false, 75, true)
+                        ? new UserSettingDto(null, entity.getId(), 20, 4, false, 75, false)
                         : UserSettingDto.from(entity.getUserSettingEntity())
         );
     }
