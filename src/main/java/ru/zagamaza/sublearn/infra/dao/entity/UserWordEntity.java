@@ -5,13 +5,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.zagamaza.sublearn.dto.UserWordDto;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_word")
+@Table(name = "user_word", indexes = {
+        @Index(name = "user_word_word_id_ix", columnList = "word_id"),
+        @Index(name = "user_word_user_id_ix", columnList = "user_id")
+})
 public class UserWordEntity {
 
     @Id
@@ -36,4 +47,5 @@ public class UserWordEntity {
                 dto.getRate()
         );
     }
+
 }

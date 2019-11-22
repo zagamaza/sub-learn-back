@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Formula;
 import ru.zagamaza.sublearn.dto.TrialDto;
 
 import javax.persistence.CascadeType;
@@ -14,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,7 +29,10 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "trials")
+@Table(name = "trials", indexes = {
+        @Index(name = "trials_episode_id_ix", columnList = "episode_id"),
+        @Index(name = "trials_user_id_ix", columnList = "user_id")
+})
 public class TrialEntity {
 
     @Id
@@ -43,7 +46,7 @@ public class TrialEntity {
     @JoinColumn(name = "episode_id", nullable = false)
     private EpisodeEntity episodeEntity;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "trialEntity")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trialEntity")
     private List<TrialWordEntity> trialWordEntity;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
