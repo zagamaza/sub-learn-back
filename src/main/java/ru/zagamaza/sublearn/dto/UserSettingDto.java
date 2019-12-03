@@ -31,6 +31,9 @@ public class UserSettingDto {
     @NotNull
     private boolean isShowAllTranslate;
 
+    @NotNull
+    private Integer learnedWordCount;
+
     public static UserSettingDto from(UserSettingEntity entity) {
         return new UserSettingDto(
                 entity.getId(),
@@ -39,7 +42,8 @@ public class UserSettingDto {
                 entity.getAnswerOptionsCount(),
                 entity.isRemindAboutTrial(),
                 entity.getThresholdLearnedPercent(),
-                entity.isShowAllTranslate()
+                entity.isShowAllTranslate(),
+                entity.getLearnedWordCount()
         );
     }
 

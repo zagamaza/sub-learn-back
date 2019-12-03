@@ -48,6 +48,10 @@ public class UserSettingEntity {
     @Column(name = "is_show_all_translate")
     private boolean isShowAllTranslate;
 
+    @Column(name = "learned_word_count", columnDefinition = "integer default 4")
+    private Integer learnedWordCount;
+
+
     public static UserSettingEntity from(UserSettingDto dto) {
         return new UserSettingEntity(
                 dto.getId(),
@@ -56,7 +60,8 @@ public class UserSettingEntity {
                 dto.getAnswerOptionsCount(),
                 dto.isRemindAboutTrial(),
                 dto.getThresholdLearnedPercent(),
-                dto.isShowAllTranslate()
+                dto.isShowAllTranslate(),
+                dto.getLearnedWordCount()
         );
     }
 
