@@ -12,11 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.zagamaza.sublearn.client.TranslatorClient;
 import ru.zagamaza.sublearn.domain.service.EpisodeService;
 import ru.zagamaza.sublearn.dto.EpisodeDto;
+import ru.zagamaza.sublearn.dto.UserSettingDto;
 import ru.zagamaza.sublearn.dto.WordDto;
 import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.EpisodeEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.EpisodeRepository;
 import ru.zagamaza.sublearn.infra.service.EpisodeInfraService;
+import ru.zagamaza.sublearn.infra.service.UserInfraService;
+import ru.zagamaza.sublearn.infra.service.UserSettingInfraService;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     private final MessageSource messageSource;
     private final WordInfraService wordInfraService;
     private final TranslatorClient translatorClient;
+    private final UserSettingInfraService userSettingInfraService;
 
     @Override
     public EpisodeDto get(Long id) {
@@ -139,7 +143,8 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
 
     @Override
     public Integer getStatistic(Long id, Long userId) {
-        return repository.getLearnedPercent(id, userId);
+        UserSettingDto userSettingDto = userSettingInfraService.getByUserId(userId);
+        return repository.getLearnedPercent(id, userId, userSettingDto.getLearnedWordCount());
     }
 
     @Override

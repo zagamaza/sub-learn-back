@@ -27,7 +27,7 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
            nativeQuery = true)
     List<Integer> getSeasonsByCollectionId(@Param("collectionId") Long collectionId);
 
-    @Query(value = "select (select  sum(case when uw.rate < 6 then cast(uw.rate as decimal) / 5 else 1 end)\n" +
+    @Query(value = "select (select  sum(case when uw.rate < (:learnCount + 1) then cast(uw.rate as decimal) / (:learnCount) else 1 end)\n" +
             "        from episodes e\n" +
             "                 join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
             "                 join words w on ewe.world_entities_id = w.id\n" +
@@ -39,7 +39,7 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
             "                                                      join episodes_world_entities ewe on e.id = ewe.episode_entity_id\n" +
             "                                                      join words w on ewe.world_entities_id = w.id\n" +
             "                                             where e.id = :id);", nativeQuery = true)
-    Integer getLearnedPercent(@Param("id") Long id, @Param("userId") Long userId);
+    Integer getLearnedPercent(@Param("id") Long id, @Param("userId") Long userId, @Param("learnCount") Integer learnCount);
 
 }
 
