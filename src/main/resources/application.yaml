@@ -24,6 +24,7 @@ default:
       isRemindAboutTrial: false
       thresholdLearnedPercent: 75
       isShowAllTranslate: true
+      learnedWordCount: 4
 
 translator:
   url: http://ms-sublearn-translator:8080/api/translator
