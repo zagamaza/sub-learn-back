@@ -24,6 +24,9 @@ public class UserSettingServiceImpl implements UserSettingService {
     @Value("${default.user.setting.isShowAllTranslate}")
     private boolean isShowAllTranslate;
 
+    @Value("${default.user.setting.learnedWordCount}")
+    private Integer learnedWordCount;
+
     @Override
     public UserSettingDto updateUserSetting(UserSettingDto saveDto, UserSettingDto updateDto) {
         saveDto.setAnswerOptionsCount(updateDto.getAnswerOptionsCount());
@@ -31,6 +34,7 @@ public class UserSettingServiceImpl implements UserSettingService {
         saveDto.setWordCountInTrial(updateDto.getWordCountInTrial());
         saveDto.setThresholdLearnedPercent(updateDto.getThresholdLearnedPercent());
         saveDto.setShowAllTranslate(updateDto.isShowAllTranslate());
+        saveDto.setLearnedWordCount(updateDto.getLearnedWordCount());
         return saveDto;
     }
 
@@ -43,7 +47,8 @@ public class UserSettingServiceImpl implements UserSettingService {
                 defaultAnswerOptionsCount,
                 defaultIsRemindAboutTrial,
                 thresholdLearnedPercent,
-                isShowAllTranslate
+                isShowAllTranslate,
+                learnedWordCount
         );
     }
 

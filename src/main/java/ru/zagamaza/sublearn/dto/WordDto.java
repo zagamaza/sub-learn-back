@@ -22,6 +22,7 @@ public class WordDto {
     private Long id;
     private String word;
     private String transcription;
+    private String mainTranslation;
     private List<TranslationDto> translation;
     private String lang;
     private LocalDateTime created;
@@ -35,6 +36,7 @@ public class WordDto {
                 entity.getId(),
                 entity.getWord(),
                 entity.getTranscription(),
+                entity.getMainTranslation(),
                 isEmpty(entity.getTranslationEntities())
                         ? null
                         : entity.getTranslationEntities()

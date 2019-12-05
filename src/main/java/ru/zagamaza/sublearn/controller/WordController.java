@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.zagamaza.sublearn.dto.WordDto;
+import ru.zagamaza.sublearn.infra.dao.entity.WordEntity;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/words")
@@ -27,6 +30,11 @@ public class WordController {
     @GetMapping("/{id}")
     public WordDto get(@PathVariable Long id) {
         return service.get(id);
+    }
+
+    @GetMapping("/update_main_translate")
+    public List<WordEntity> updateMainTranslate(@RequestParam Integer seek) {
+        return service.fillMainTranslation(seek);
     }
 
     @PostMapping

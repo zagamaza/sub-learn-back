@@ -2,16 +2,22 @@ package ru.zagamaza.sublearn.infra.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zagamaza.sublearn.client.TranslatorClient;
 import ru.zagamaza.sublearn.dto.WordDto;
 import ru.zagamaza.sublearn.exception.domain.NotFoundException;
+import ru.zagamaza.sublearn.infra.dao.entity.Lang;
 import ru.zagamaza.sublearn.infra.dao.entity.WordEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.WorldRepository;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +25,7 @@ import java.util.stream.Collectors;
 public class WordInfraServiceImpl implements WordInfraService {
 
     private final WorldRepository repository;
+    private final TranslatorClient translatorClient;
     private final MessageSource messageSource;
 
     @Override
@@ -74,6 +81,22 @@ public class WordInfraServiceImpl implements WordInfraService {
                          return true;
                      }).collect(Collectors.toList());
         return words;
+    }
+
+    @Override
+    @Transactional
+    public List<WordEntity> fillMainTranslation(Integer seek) {
+
+        List<WordEntity> wordEntities = repository.findAll(PageRequest.of(seek, 1000, Sort.by("id"))).getContent();
+        List<String> words = wordEntities.stream().map(WordEntity::getWord).collect(Collectors.toList());
+
+        Map<String, WordDto> wordToDto = translatorClient
+                .translate(words, Lang.EN_RU)
+                .stream()
+                .collect(Collectors.toMap(WordDto::getWord, Function.identity()));
+        return wordEntities.stream()
+                    .peek(w -> w.setMainTranslation(wordToDto.get(w.getWord()).getMainTranslation()))
+                    .collect(Collectors.toList());
     }
 
     private String getMessage(String key, Object... args) {

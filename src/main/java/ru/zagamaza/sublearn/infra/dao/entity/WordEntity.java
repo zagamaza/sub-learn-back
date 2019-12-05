@@ -35,6 +35,7 @@ public class WordEntity {
     private Long id;
     private String word;
     private String transcription;
+    private String mainTranslation;
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "word_id")
     private List<TranslationEntity> translationEntities;
@@ -46,6 +47,7 @@ public class WordEntity {
                 wordDto.getId(),
                 wordDto.getWord(),
                 wordDto.getTranscription(),
+                wordDto.getMainTranslation(),
                 isEmpty(wordDto.getTranslation())
                         ? null
                         : wordDto.getTranslation()
