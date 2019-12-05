@@ -93,10 +93,10 @@ public class WordInfraServiceImpl implements WordInfraService {
         Map<String, WordDto> wordToDto = translatorClient
                 .translate(words, Lang.EN_RU)
                 .stream()
-                .collect(Collectors.toMap(WordDto::getWord, Function.identity()));
+                .collect(Collectors.toMap(WordDto::getWord, Function.identity(), (w1, w2) -> w1));
         return wordEntities.stream()
-                    .peek(w -> w.setMainTranslation(wordToDto.get(w.getWord()).getMainTranslation()))
-                    .collect(Collectors.toList());
+                           .peek(w -> w.setMainTranslation(wordToDto.get(w.getWord()).getMainTranslation()))
+                           .collect(Collectors.toList());
     }
 
     private String getMessage(String key, Object... args) {
