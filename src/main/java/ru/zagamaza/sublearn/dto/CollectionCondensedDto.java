@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class CollectionCondensedDto {
 
     private Long id;
+    private Long imdbId;
     private Lang lang;
     private String name;
     private String url;
@@ -28,6 +29,7 @@ public class CollectionCondensedDto {
     public static CollectionCondensedDto from(CollectionDto collectionDto) {
         return new CollectionCondensedDto(
                 collectionDto.getId(),
+                collectionDto.getImdbId(),
                 collectionDto.getLang(),
                 collectionDto.getName(),
                 collectionDto.getUrl(),
@@ -41,6 +43,7 @@ public class CollectionCondensedDto {
     public static CollectionCondensedDto from(CollectionEntity entity) {
         return new CollectionCondensedDto(
                 entity.getId(),
+                entity.getImdbId(),
                 entity.getLang(),
                 entity.getName(),
                 entity.getUrl(),

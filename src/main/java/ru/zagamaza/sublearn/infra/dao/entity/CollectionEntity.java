@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -29,12 +30,15 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "collections")
+@Table(name = "collections", indexes = @Index(name = "collections_imdb_id_ix", columnList = "imdb_id"))
 public class CollectionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "imdb_id")
+    private Long imdbId;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "collectionEntity")
     private List<EpisodeEntity> episodeEntities;
@@ -60,6 +64,7 @@ public class CollectionEntity {
     public static CollectionEntity from(CollectionDto dto) {
         return new CollectionEntity(
                 dto.getId(),
+                dto.getImdbId(),
                 isEmpty(dto.getEpisodeDtos())
                         ? null
                         : dto.getEpisodeDtos()
@@ -79,6 +84,7 @@ public class CollectionEntity {
     public static CollectionEntity compressedFrom(CollectionDto dto) {
         return new CollectionEntity(
                 dto.getId(),
+                dto.getImdbId(),
                 dto.getEpisodeDtos()
                    .stream()
                    .map(EpisodeEntity::from)

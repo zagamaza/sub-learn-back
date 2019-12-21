@@ -34,6 +34,11 @@ public class CollectionController {
         return service.get(id);
     }
 
+    @GetMapping("/imdb/{imdbId}")
+    public CollectionDto getByImdbId(@PathVariable Long imdbId) {
+        return service.getByImdbId(imdbId);
+    }
+
     @GetMapping("/condensed/users/{userId}")
     public Page<CollectionCondensedDto> getCollectionByUserId(@PathVariable Long userId, Pageable pageable) {
         return service.getCondensedCollectionByUserId(userId, pageable);
