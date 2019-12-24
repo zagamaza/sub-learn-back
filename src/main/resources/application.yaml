@@ -31,3 +31,12 @@ translator:
 
 project:
   version: @project.version@
+
+sublearn:
+  back:
+    user:
+      login:
+      password:
+    admin:
+      login:
+      password:
