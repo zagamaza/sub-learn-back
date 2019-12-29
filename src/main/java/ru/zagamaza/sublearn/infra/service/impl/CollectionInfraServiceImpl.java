@@ -117,6 +117,12 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
         repository.deleteLinkUserToCollection(id, userId);
     }
 
+    @Override
+    public CollectionDto getByImdbId(Long imdbId) {
+        CollectionEntity collectionEntity = repository.findByImdbId(imdbId);
+        return CollectionDto.from(collectionEntity);
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }

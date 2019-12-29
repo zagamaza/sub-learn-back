@@ -22,6 +22,8 @@ public class CollectionDto {
 
     private Long id;
 
+    private Long imdbId;
+
     private List<EpisodeDto> episodeDtos;
 
     private Long userId;
@@ -46,6 +48,7 @@ public class CollectionDto {
     public static CollectionDto compressedFrom(CollectionEntity entity) {
         return CollectionDto.builder()
                             .id(entity.getId())
+                            .imdbId(entity.getImdbId())
                             .lang(entity.getLang())
                             .name(entity.getName())
                             .url(entity.getUrl())
@@ -57,8 +60,12 @@ public class CollectionDto {
     }
 
     public static CollectionDto from(CollectionEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return new CollectionDto(
                 entity.getId(),
+                entity.getImdbId(),
                 isEmpty(entity.getEpisodeEntities())
                         ? null
                         : entity.getEpisodeEntities()
@@ -79,6 +86,7 @@ public class CollectionDto {
     public static CollectionDto from(CollectionRequest request) {
         return new CollectionDto(
                 request.getId(),
+                request.getImdbId(),
                 null,
                 request.getUserId(),
                 request.getLang(),
