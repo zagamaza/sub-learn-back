@@ -38,7 +38,7 @@ public class CollectionEntity {
     private Long id;
 
     @Column(name = "imdb_id")
-    private Long imdbId;
+    private String imdbId;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "collectionEntity")
     private List<EpisodeEntity> episodeEntities;
