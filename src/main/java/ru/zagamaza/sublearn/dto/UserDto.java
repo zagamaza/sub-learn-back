@@ -57,4 +57,19 @@ public class UserDto {
         );
     }
 
+    public static UserDto compressedFrom(UserEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return new UserDto(
+                entity.getId(),
+                entity.getTelegramId(),
+                entity.getUserName(),
+                entity.getEmail(),
+                entity.getCreated(),
+                null
+        );
+
+    }
+
 }
