@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class CollectionCondensedDto {
 
     private Long id;
-    private Long imdbId;
+    private String imdbId;
     private Lang lang;
     private String name;
     private String url;

@@ -17,7 +17,7 @@ public class CollectionRequest {
 
     private Long id;
 
-    private Long imdbId;
+    private String imdbId;
 
     @NotNull
     private Lang lang;
