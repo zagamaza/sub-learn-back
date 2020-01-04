@@ -118,7 +118,7 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     }
 
     @Override
-    public CollectionDto getByImdbId(Long imdbId) {
+    public CollectionDto getByImdbId(String imdbId) {
         CollectionEntity collectionEntity = repository.findByImdbId(imdbId);
         return CollectionDto.from(collectionEntity);
     }

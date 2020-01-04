@@ -31,6 +31,6 @@ public interface CollectionInfraService {
 
     void deleteLink(Long id, Long userId);
 
-    CollectionDto getByImdbId(Long imdbId);
+    CollectionDto getByImdbId(String imdbId);
 
 }

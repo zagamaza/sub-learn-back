@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface CollectionRepository extends JpaRepository<CollectionEntity, Long> {
 
-    CollectionEntity findByImdbId(Long imdbId);
+    CollectionEntity findByImdbId(String imdbId);
 
     @Query(value = "select u.collectionEntities from UserEntity u where u.id = :userId")
     List<CollectionEntity> findAllByUserEntityId(Long userId, Pageable pageable);

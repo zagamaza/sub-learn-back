@@ -35,7 +35,7 @@ public class CollectionController {
     }
 
     @GetMapping("/imdb/{imdbId}")
-    public CollectionDto getByImdbId(@PathVariable Long imdbId) {
+    public CollectionDto getByImdbId(@PathVariable String imdbId) {
         return service.getByImdbId(imdbId);
     }
 
