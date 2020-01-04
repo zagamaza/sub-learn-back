@@ -46,6 +46,9 @@ public class CollectionDto {
 
 
     public static CollectionDto compressedFrom(CollectionEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return CollectionDto.builder()
                             .id(entity.getId())
                             .imdbId(entity.getImdbId())
