@@ -49,6 +49,11 @@ public class CollectionController {
         return service.findByContainsName(collectionName, pageable);
     }
 
+    @GetMapping("/serials/finished")
+    public List<CollectionCondensedDto> findNotFinishedSerials() {
+        return service.findNotFinishedSerials();
+    }
+
     @GetMapping("/{id}/users/{userId}/copy")
     public CollectionDto copy(@PathVariable Long id, @PathVariable Long userId) {
         return service.copyCollectionToUser(id, userId);

@@ -34,6 +34,8 @@ public class CollectionRequest {
 
     private boolean isShared;
 
+    private boolean isFinished;
+
     private LocalDateTime created;
 
     private boolean isSerial;

@@ -23,6 +23,7 @@ public class CollectionCondensedDto {
     private Integer rating;
     private boolean isShared;
     private Boolean isSerial;
+    private Boolean isFinished;
     private LocalDateTime created;
 
 
@@ -36,6 +37,7 @@ public class CollectionCondensedDto {
                 collectionDto.getRating(),
                 collectionDto.isShared(),
                 collectionDto.isSerial(),
+                collectionDto.isFinished(),
                 collectionDto.getCreated()
         );
     }
@@ -50,6 +52,7 @@ public class CollectionCondensedDto {
                 entity.getRating(),
                 entity.isShared(),
                 entity.isSerial(),
+                entity.isFinished(),
                 entity.getCreated()
         );
     }

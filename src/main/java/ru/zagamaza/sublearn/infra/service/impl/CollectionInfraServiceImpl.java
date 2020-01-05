@@ -123,6 +123,15 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
         return CollectionDto.compressedFrom(entity);
     }
 
+    @Override
+    public List<CollectionCondensedDto> findNotFinishedSerials() {
+        return repository
+                .findAllByIsSerialIsTrueAndIsFinishedIsFalse()
+                .stream()
+                .map(CollectionCondensedDto::from)
+                .collect(Collectors.toList());
+    }
+
     private String getMessage(String key, Object... args) {
         return this.messageSource.getMessage(key, args, Locale.getDefault());
     }
