@@ -25,7 +25,7 @@ public class EpisodeRequest {
     private Long collectionId;
 
     @Min(value = 0L)
-    @Max(value = 23L)
+    @Max(value = 39L)
     private Integer season;
 
     @Min(value = 0L)

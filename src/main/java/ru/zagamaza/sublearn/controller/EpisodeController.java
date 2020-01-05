@@ -50,8 +50,8 @@ public class EpisodeController {
     }
 
     @GetMapping("/collections/{collectionId}/seasons")
-    public List<Integer> getSeasonsByCollectionId(@PathVariable Long collectionId) {
-        return service.getSeasonsByCollectionId(collectionId);
+    public Page<Integer> getSeasonsByCollectionId(@PathVariable Long collectionId, Pageable pageable) {
+        return service.getSeasonsByCollectionId(collectionId, pageable);
     }
 
     @GetMapping("/collections/{collectionId}/season")

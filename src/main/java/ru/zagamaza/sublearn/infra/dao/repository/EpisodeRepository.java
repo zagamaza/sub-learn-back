@@ -24,8 +24,9 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
     Optional<EpisodeEntity> findByIdWithWords(@Param("id") Long id);
 
     @Query(value = "select distinct e.season from episodes e where e.collection_id = :collectionId order by season",
+           countQuery = "select count (distinct e.season) from episodes e where e.collection_id = :collectionId",
            nativeQuery = true)
-    List<Integer> getSeasonsByCollectionId(@Param("collectionId") Long collectionId);
+    Page<Integer> getSeasonsByCollectionId(@Param("collectionId") Long collectionId, Pageable pageable);
 
     @Query(value = "select (select  sum(case when uw.rate < (:learnCount + 1) then cast(uw.rate as decimal) / (:learnCount) else 1 end)\n" +
             "        from episodes e\n" +
