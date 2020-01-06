@@ -37,7 +37,7 @@ public class CollectionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "imdb_id")
+    @Column(name = "imdb_id", unique = true)
     private String imdbId;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "collectionEntity")
@@ -58,6 +58,9 @@ public class CollectionEntity {
     @Column(name = "is_serial")
     private boolean isSerial;
 
+    @Column(name = "is_finished", columnDefinition = "boolean default true")
+    private boolean isFinished;
+
     private LocalDateTime created;
 
 
@@ -77,6 +80,7 @@ public class CollectionEntity {
                 dto.getRating(),
                 dto.isShared(),
                 dto.isSerial(),
+                dto.isFinished(),
                 dto.getCreated()
         );
     }
@@ -95,6 +99,7 @@ public class CollectionEntity {
                 dto.getRating(),
                 dto.isShared(),
                 dto.isSerial(),
+                dto.isFinished(),
                 LocalDateTime.now()
         );
     }

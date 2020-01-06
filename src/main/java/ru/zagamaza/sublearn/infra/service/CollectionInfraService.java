@@ -33,4 +33,6 @@ public interface CollectionInfraService {
 
     CollectionDto getByImdbId(String imdbId);
 
+    List<CollectionCondensedDto> findNotFinishedSerials();
+
 }

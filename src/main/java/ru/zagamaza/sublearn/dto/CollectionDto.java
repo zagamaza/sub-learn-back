@@ -42,6 +42,8 @@ public class CollectionDto {
 
     private boolean isSerial;
 
+    private boolean isFinished;
+
     private LocalDateTime created;
 
 
@@ -58,6 +60,7 @@ public class CollectionDto {
                             .rating(entity.getRating())
                             .isShared(entity.isShared())
                             .isSerial(entity.isSerial())
+                            .isFinished(entity.isFinished())
                             .created(entity.getCreated())
                             .build();
     }
@@ -82,6 +85,7 @@ public class CollectionDto {
                 entity.getRating(),
                 entity.isShared(),
                 entity.isSerial(),
+                entity.isFinished(),
                 entity.getCreated()
         );
     }
@@ -98,6 +102,7 @@ public class CollectionDto {
                 request.getRating(),
                 request.isShared(),
                 request.isSerial(),
+                request.isFinished(),
                 request.getCreated()
         );
     }
