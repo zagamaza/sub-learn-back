@@ -111,10 +111,10 @@ public class TrialWordInfraServiceImpl implements TrialWordInfraService {
     }
 
     @Override
-    public TrialWordDto updateTrialWordAndSaveLearnedUserWord(Long id) {
+    public TrialWordDto updateTrialWordAndSaveLearnedUserWord(Long id, Boolean isRight) {
         TrialWordDto trialWordDto = get(id);
         trialWordDto.setPassed(true);
-        trialWordDto.setRight(true);
+        trialWordDto.setRight(isRight);
         update(trialWordDto);
         updateLearnedUserWord(trialWordDto);
         return trialWordDto;
