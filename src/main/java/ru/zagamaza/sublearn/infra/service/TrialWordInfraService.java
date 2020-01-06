@@ -23,6 +23,6 @@ public interface TrialWordInfraService {
 
     List<TrialWordDto> saveWordTrialsForTrial(TrialDto trialDto);
 
-    TrialWordDto updateTrialWordAndSaveLearnedUserWord(Long id);
+    TrialWordDto updateTrialWordAndSaveLearnedUserWord(Long id, Boolean isRight);
 
 }
