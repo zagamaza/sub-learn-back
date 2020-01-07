@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.zagamaza.sublearn.client.TranslatorClient;
+import ru.zagamaza.sublearn.controller.EpisodeController;
 import ru.zagamaza.sublearn.domain.service.EpisodeService;
 import ru.zagamaza.sublearn.dto.EpisodeDto;
 import ru.zagamaza.sublearn.dto.UserSettingDto;
@@ -18,7 +19,6 @@ import ru.zagamaza.sublearn.exception.domain.NotFoundException;
 import ru.zagamaza.sublearn.infra.dao.entity.EpisodeEntity;
 import ru.zagamaza.sublearn.infra.dao.repository.EpisodeRepository;
 import ru.zagamaza.sublearn.infra.service.EpisodeInfraService;
-import ru.zagamaza.sublearn.infra.service.UserInfraService;
 import ru.zagamaza.sublearn.infra.service.UserSettingInfraService;
 import ru.zagamaza.sublearn.infra.service.WordInfraService;
 
@@ -148,8 +148,8 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     }
 
     @Override
-    public List<Integer> getSeasonsByCollectionId(Long collectionId) {
-        return repository.getSeasonsByCollectionId(collectionId);
+    public Page<Integer> getSeasonsByCollectionId(Long collectionId, Pageable pageable) {
+        return repository.getSeasonsByCollectionId(collectionId, pageable);
     }
 
     @Override

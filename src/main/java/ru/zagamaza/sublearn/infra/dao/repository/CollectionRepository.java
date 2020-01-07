@@ -1,6 +1,5 @@
 package ru.zagamaza.sublearn.infra.dao.repository;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +12,10 @@ import java.util.List;
 
 @Repository
 public interface CollectionRepository extends JpaRepository<CollectionEntity, Long> {
+
+    CollectionEntity findByImdbId(String imdbId);
+
+    List<CollectionEntity> findAllByIsSerialIsTrueAndIsFinishedIsFalse();
 
     @Query(value = "select u.collectionEntities from UserEntity u where u.id = :userId")
     List<CollectionEntity> findAllByUserEntityId(Long userId, Pageable pageable);

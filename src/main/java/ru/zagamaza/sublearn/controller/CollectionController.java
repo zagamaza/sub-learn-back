@@ -34,6 +34,11 @@ public class CollectionController {
         return service.get(id);
     }
 
+    @GetMapping("/imdb/{imdbId}")
+    public CollectionDto getByImdbId(@PathVariable String imdbId) {
+        return service.getByImdbId(imdbId);
+    }
+
     @GetMapping("/condensed/users/{userId}")
     public Page<CollectionCondensedDto> getCollectionByUserId(@PathVariable Long userId, Pageable pageable) {
         return service.getCondensedCollectionByUserId(userId, pageable);
@@ -42,6 +47,11 @@ public class CollectionController {
     @GetMapping
     public List<CollectionCondensedDto> search(@RequestParam String collectionName, Pageable pageable) {
         return service.findByContainsName(collectionName, pageable);
+    }
+
+    @GetMapping("/serials/finished")
+    public List<CollectionCondensedDto> findNotFinishedSerials() {
+        return service.findNotFinishedSerials();
     }
 
     @GetMapping("/{id}/users/{userId}/copy")

@@ -17,6 +17,8 @@ public class CollectionRequest {
 
     private Long id;
 
+    private String imdbId;
+
     @NotNull
     private Lang lang;
 
@@ -31,6 +33,8 @@ public class CollectionRequest {
     private Integer rating;
 
     private boolean isShared;
+
+    private boolean isFinished;
 
     private LocalDateTime created;
 

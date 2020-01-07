@@ -24,6 +24,8 @@ public class CollectionServiceImpl implements CollectionService {
         saveDto.setUrl(updateDto.getUrl());
         saveDto.setShared(updateDto.isShared());
         saveDto.setSerial(updateDto.isSerial());
+        saveDto.setImdbId(updateDto.getImdbId());
+        saveDto.setFinished(updateDto.isFinished());
         return saveDto;
     }
 

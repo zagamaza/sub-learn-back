@@ -41,7 +41,7 @@ public class UserDto {
                 entity.getEmail(),
                 entity.getCreated(),
                 entity.getUserSettingEntity() == null
-                        ? new UserSettingDto(null, entity.getId(), 20, 4, false, 75, false, 4)
+                        ? new UserSettingDto(null, entity.getId(), 20, 4, false, 75, false, 3)
                         : UserSettingDto.from(entity.getUserSettingEntity())
         );
     }
@@ -55,6 +55,21 @@ public class UserDto {
                 userRequest.getCreated(),
                 null
         );
+    }
+
+    public static UserDto compressedFrom(UserEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return new UserDto(
+                entity.getId(),
+                entity.getTelegramId(),
+                entity.getUserName(),
+                entity.getEmail(),
+                entity.getCreated(),
+                null
+        );
+
     }
 
 }

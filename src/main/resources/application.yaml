@@ -15,6 +15,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
+        loggerLevel: basic
 
 default:
   user:
@@ -24,10 +31,19 @@ default:
       isRemindAboutTrial: false
       thresholdLearnedPercent: 75
       isShowAllTranslate: true
-      learnedWordCount: 4
+      learnedWordCount: 3
 
 translator:
   url: http://ms-sublearn-translator:8080/api/translator
 
 project:
   version: @project.version@
+
+sublearn:
+  back:
+    user:
+      login:
+      password:
+    admin:
+      login:
+      password:

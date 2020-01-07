@@ -48,7 +48,7 @@ public class UserSettingEntity {
     @Column(name = "is_show_all_translate")
     private boolean isShowAllTranslate;
 
-    @Column(name = "learned_word_count", columnDefinition = "integer default 4")
+    @Column(name = "learned_word_count", columnDefinition = "integer default 3")
     private Integer learnedWordCount;
 
 
