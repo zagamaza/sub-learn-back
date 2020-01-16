@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.zagamaza.sublearn.infra.dao.entity.EpisodeEntity;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -41,6 +40,11 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
             "                                                      join words w on ewe.world_entities_id = w.id\n" +
             "                                             where e.id = :id);", nativeQuery = true)
     Integer getLearnedPercent(@Param("id") Long id, @Param("userId") Long userId, @Param("learnCount") Integer learnCount);
+
+    @Query(value = "select not exists(select from episodes e " +
+            "join episodes_world_entities ewe on e.id = ewe.episode_entity_id " +
+            "where ewe.world_entities_id is null and e.id = :id); ", nativeQuery = true)
+    Boolean isEmptyWords(@Param("id") Long id);
 
 }
 

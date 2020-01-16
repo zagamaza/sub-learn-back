@@ -79,7 +79,7 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
     public EpisodeDto saveAfterTranslator(EpisodeDto dto) {
         EpisodeEntity entity = EpisodeEntity.from(dto);
         entity = repository.save(entity);
-        return EpisodeDto.from(entity);
+        return EpisodeDto.compressedFrom(entity);
     }
 
     @Override
@@ -174,6 +174,11 @@ public class EpisodeInfraServiceImpl implements EpisodeInfraService {
         );
         return EpisodeDto.compressedFrom(episodeEntity);
 
+    }
+
+    @Override
+    public Boolean isEmptyEpisode(Long id) {
+        return repository.isEmptyWords(id);
     }
 
     private String getMessage(String key, Object... args) {

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -29,7 +28,7 @@ public class EpisodeRequest {
     private Integer season;
 
     @Min(value = 0L)
-    @Max(value = 50L)
+    @Max(value = 60L)
     private Integer episode;
 
 }
