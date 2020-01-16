@@ -43,7 +43,7 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
 
     @Query(value = "select not exists(select from episodes e " +
             "join episodes_world_entities ewe on e.id = ewe.episode_entity_id " +
-            "where ewe.world_entities_id is null and e.id = :id); ", nativeQuery = true)
+            "where ewe.world_entities_id is not null and e.id = :id); ", nativeQuery = true)
     Boolean isEmptyWords(@Param("id") Long id);
 
 }
