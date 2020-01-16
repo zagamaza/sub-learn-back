@@ -20,7 +20,6 @@ import ru.zagamaza.sublearn.dto.EpisodeRequest;
 import ru.zagamaza.sublearn.infra.service.EpisodeInfraService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/episodes")
@@ -37,6 +36,11 @@ public class EpisodeController {
     @GetMapping("/{id}/words")
     public EpisodeDto getWithWords(@PathVariable Long id) {
         return service.getWithWords(id);
+    }
+
+    @GetMapping("/{id}/is_empty")
+    public Boolean isEmpty(@PathVariable Long id) {
+        return service.isEmptyEpisode(id);
     }
 
     @GetMapping("/collections/{collectionId}")

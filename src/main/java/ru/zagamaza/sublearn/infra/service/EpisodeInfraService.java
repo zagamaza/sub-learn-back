@@ -39,4 +39,6 @@ public interface EpisodeInfraService {
 
     EpisodeDto getByCollectionIdAndSeasonAndSeries(Long collectionId, Integer season, Integer series);
 
+    Boolean isEmptyEpisode(Long id);
+
 }
