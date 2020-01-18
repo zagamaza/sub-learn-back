@@ -15,7 +15,8 @@ public interface CollectionRepository extends JpaRepository<CollectionEntity, Lo
 
     CollectionEntity findByImdbId(String imdbId);
 
-    List<CollectionEntity> findAllByIsSerialIsTrueAndIsFinishedIsFalse();
+    @Query(value = "select c from CollectionEntity c where c.isFinished is FALSE and c.isShared is TRUE ")
+    List<CollectionEntity> findAllByIsSerialTrueAndFinishedFalse();
 
     @Query(value = "select u.collectionEntities from UserEntity u where u.id = :userId")
     List<CollectionEntity> findAllByUserEntityId(Long userId, Pageable pageable);

@@ -126,7 +126,7 @@ public class CollectionInfraServiceImpl implements CollectionInfraService {
     @Override
     public List<CollectionCondensedDto> findNotFinishedSerials() {
         return repository
-                .findAllByIsSerialIsTrueAndIsFinishedIsFalse()
+                .findAllByIsSerialTrueAndFinishedFalse()
                 .stream()
                 .map(CollectionCondensedDto::from)
                 .collect(Collectors.toList());
