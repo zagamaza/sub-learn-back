@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,11 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "episodes", indexes = @Index(name = "episodes_collection_id_ix", columnList = "collection_id"))
+@Table(
+        name = "episodes",
+        indexes = @Index(name = "episodes_collection_id_ix", columnList = "collection_id"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"collection_id", "season", "episode"})
+)
 public class EpisodeEntity {
 
     @Id
