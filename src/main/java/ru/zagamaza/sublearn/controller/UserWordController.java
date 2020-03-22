@@ -33,6 +33,11 @@ public class UserWordController {
         return service.save(userWordDto);
     }
 
+    @PostMapping("/users/{userId}/reset")
+    public void resetProgress(@PathVariable Long userId) {
+        service.resetProgress(userId);
+    }
+
     @PutMapping
     public UserWordDto update(@RequestBody UserWordRequest userWordRequest) {
         UserWordDto userWordDto = UserWordDto.from(userWordRequest);
