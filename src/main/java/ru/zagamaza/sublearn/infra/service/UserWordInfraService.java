@@ -20,4 +20,6 @@ public interface UserWordInfraService {
 
     UserWordDto save(Long wordId, Long userId);
 
+    void resetProgress(Long userId);
+
 }

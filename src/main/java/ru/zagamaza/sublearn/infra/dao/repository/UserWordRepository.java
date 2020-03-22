@@ -11,5 +11,7 @@ public interface UserWordRepository extends JpaRepository<UserWordEntity, Long> 
 
     Optional<UserWordEntity> findByWordEntityIdAndUserEntityId(Long wordId, Long userId);
 
+    void deleteAllByUserEntityId(Long userId);
+
 }
 

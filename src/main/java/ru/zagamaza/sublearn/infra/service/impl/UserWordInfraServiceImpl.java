@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.zagamaza.sublearn.domain.service.UserWordService;
 import ru.zagamaza.sublearn.dto.UserWordDto;
 import ru.zagamaza.sublearn.exception.domain.NotFoundException;
@@ -70,6 +71,12 @@ public class UserWordInfraServiceImpl implements UserWordInfraService {
                 .orElse(UserWordEntity.from(new UserWordDto(userId, wordId)));
         entity.setRate(10);
         return save(UserWordDto.from(entity));
+    }
+
+    @Override
+    @Transactional
+    public void resetProgress(Long userId) {
+        repository.deleteAllByUserEntityId(userId);
     }
 
     private String getMessage(String key, Object... args) {
